@@ -96,6 +96,8 @@ export default {
   background: url("/static/head_bg.8ba4822.png") no-repeat center center / 100%;
   // background-color: #FEDFC6;
    // background: linear-gradient(0deg, #FDF0B8 0%, #FFE3B1 100%);
+   flex-shrink: 0;
+   
   .header {
     display: flex;
     flex-direction: row;

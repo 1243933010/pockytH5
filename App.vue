@@ -12,6 +12,26 @@
 	}
 </script>
 
-<style>
-	/*每个页面公共css */
+<style lang="less">
+@import "@/static/less/variable.less";
+
+uni-page-body {
+	height: 100%;
+	
+	.page-con {
+		height: 100%;
+		.df();
+		flex-direction: column;
+		
+		.page-container {
+			flex-grow: 1;
+		}
+	}
+}
+
+.pic {
+	image {
+		width: 100%;
+	}
+}
 </style>

@@ -9,6 +9,28 @@
 		},
 		{
 			"path" : "pages/login/login",
+			"style" : {
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/my/my",
+			"style" : 
+			{
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/my/order",
+			"style" : 
+			{
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/collect/collect",
 			"style" : 
 			{
 				"navigationBarTitleText" : "",
@@ -20,7 +42,32 @@
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"backgroundColor": "#ffffff"
 	},
-	"uniIdRouter": {}
+	"uniIdRouter": {},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [
+			{
+			"pagePath": "pages/index/index",
+			"iconPath": "static/home.svg",
+			"selectedIconPath": "static/home_select.svg",
+			"text": "%index.home%"
+		},
+		{
+			"pagePath": "pages/collect/collect",
+			"iconPath": "static/collect.svg",
+			"selectedIconPath": "static/collect.svg",
+			"text": "%index.collect%"
+		},
+		{
+			"pagePath": "pages/my/my",
+			"iconPath": "static/my.svg",
+			"selectedIconPath": "static/my_select.svg",
+			"text": "%index.order%"
+		}]
+	}
 }
