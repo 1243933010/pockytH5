@@ -4,15 +4,48 @@
 		<customHeader />
 		<view class="page-home">
 			<view class="uni-margin-wrap">
-				<swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay"
-					:interval="interval" :duration="duration">
+				<swiper class="swiper" circular :indicator-dots="true" :autoplay="true" :interval="2000"
+					:duration="500">
 					<swiper-item>
 						<image src="../../static/head_bg.8ba4822.png" mode="widthFix"></image>
 					</swiper-item>
-					<!-- <swiper-item>
+					<swiper-item>
 						<image src="../../static/head_bg.8ba4822.png" mode="aspectFill"></image>
-					</swiper-item> -->
+					</swiper-item>
 				</swiper>
+			</view>
+
+			<view class="tip">
+				<view class="content">
+					<view class="item" v-for="(item,index) in tipList" :key="index">
+						<image :src="item.img" mode="widthFix"></image>
+						<text>{{item.name}}</text>
+					</view>
+				</view>
+			</view>
+
+			<view class="hr"></view>
+			<view class="scroll1">
+				<scroll-view class="scroll-view_H" scroll-x="true" scroll-left="0">
+					<view class="scroll-view-item_H uni-bg-red" :class="scrollIndex==index?'active':''"
+						v-for="(item,index) in scroll" :key="index" @click="scrollTab(item,index)">
+						<view class="box">
+							<image :src="item.img" mode="widthFix"></image>
+							<text>{{item.name}}</text>
+						</view>
+					</view>
+				</scroll-view>
+			</view>
+			<view class="list">
+				<view class="box">
+					<view class="item" v-for="(item,index) in list" :key="index">
+						<image :src="item.img" mode="aspectFill"></image>
+						<view class="box1">
+							<text>{{item.name}}</text>
+							<view class="status">{{$t("app.name9")}}1%</view>
+						</view>
+					</view>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -26,57 +59,302 @@
 		},
 		data() {
 			return {
-				indicatorDots: true,
-				autoplay: true,
-				interval: 2000,
-				duration: 500
+				reqInfo: {
+					page: 1
+				},
+				scrollIndex: 0,
+				list: [{
+						name: 'testsdsdsdsddddddddddddddddddd',
+						id: "",
+						img: '../../static/head_bg.8ba4822.png'
+					},
+					{
+						name: 'test',
+						id: "",
+						img: '../../static/head_bg.8ba4822.png'
+					},
+					{
+						name: 'test',
+						id: "",
+						img: '../../static/head_bg.8ba4822.png'
+					},
+					{
+						name: 'test',
+						id: "",
+						img: '../../static/head_bg.8ba4822.png'
+					},
+					{
+						name: 'test',
+						id: "",
+						img: '../../static/head_bg.8ba4822.png'
+					},
+				]
 			}
 		},
 		computed: {
-			
+			tipList() {
+				return [{
+						name: this.$t("app.tip1"),
+						id: "",
+						img: '../../static/1.svg'
+					},
+					{
+						name: this.$t("app.tip2"),
+						id: "",
+						img: '../../static/2.svg'
+					},
+					{
+						name: this.$t("app.tip3"),
+						id: "",
+						img: '../../static/3.svg'
+					},
+					{
+						name: this.$t("app.tip4"),
+						id: "",
+						img: '../../static/4.svg'
+					},
+				]
+			},
+			scroll() {
+				return [{
+						name: this.$t("app.name2"),
+						id: "",
+						img: '../../static/5.svg'
+					},
+					{
+						name: this.$t("app.name3"),
+						id: "",
+						img: '../../static/6.svg'
+					},
+					{
+						name: this.$t("app.name4"),
+						id: "",
+						img: '../../static/7.svg'
+					},
+					{
+						name: this.$t("app.name5"),
+						id: "",
+						img: '../../static/8.svg'
+					},
+					{
+						name: this.$t("app.name6"),
+						id: "",
+						img: '../../static/9.svg'
+					},
+					{
+						name: this.$t("app.name7"),
+						id: "",
+						img: '../../static/11.svg'
+					},
+					{
+						name: this.$t("app.name8"),
+						id: "",
+						img: '../../static/12.svg'
+					},
+				]
+			}
+		},
+		onReachBottom() {
+			this.reqInfo.page++
+			this.getList();
 		},
 		onLoad() {
-			let code = uni.getLocale();
-			// if (code) {
-			//   this.imgSrc = this.iconList[this.locale[code]];
-			// }
-			console.log(this.$t, this.$t("app.test"), code, this.$i18n.locale)
-			// uni.setLocale("zh-Hans");
-			// this.$i18n.locale = "zh-Hans";
+
 		},
 		methods: {
+			getList() {
 
+			},
+			scrollTab(item, index) {
+				this.scrollIndex = index;
+			}
 		}
 	}
 </script>
 
 <style lang="less" scoped>
-	.uni-swiper-dot-active{
-		background-color: rgba(32, 139, 86,1) !important;
+	@import "../../static/less/variable.less";
+
+	/deep/.uni-swiper-dot {
+		background: white !important;
 	}
-	.page-home{
+
+	/deep/.uni-swiper-dot-active {
+		background: rgba(32, 139, 86, 1) !important;
+	}
+
+	.page-home {
 		margin-top: -15rpx;
 		background-color: white;
 		border-top-right-radius: 15rpx;
 		border-top-left-radius: 15rpx;
-		.uni-margin-wrap{
+
+		.uni-margin-wrap {
 			width: 100%;
-			.swiper{
+
+			.swiper {
 				width: 95%;
 				margin: 0 auto;
 				// border-radius: 15rpx;
 				padding-top: 15rpx;
-				swiper-item{
+
+				swiper-item {
 					border-radius: 15rpx;
 				}
-				image{
+
+				image {
 					width: 100%;
 					// border-radius: 15rpx;
 				}
 			}
+
 			// display: flex;
 			// justify-content: center;
 			// align-items: center;
+		}
+
+		.tip {
+			width: 100%;
+			padding-top: 25rpx;
+
+			.content {
+				width: 95%;
+				margin: 0 auto;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+
+				.item {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					color: #005C2F;
+					font-size: 26rpx;
+
+					image {
+						width: 32rpx;
+						margin-right: 10rpx;
+					}
+				}
+			}
+		}
+
+		.hr {
+			width: 100%;
+			height: 40rpx;
+			margin-top: 25rpx;
+			background-color: #F4F6F6;
+		}
+
+		.active {
+			color: #3EC0DC;
+			font-weight: 700;
+			background-color: white !important;
+			box-shadow: 0px 10px 10px rgba(0, 0, 0, .2);
+		}
+
+		.scroll1 {
+			width: 95%;
+			margin-top: -10rpx;
+
+			// background: red;
+			border-top-left-radius: 15rpx;
+			border-top-right-radius: 15rpx;
+
+			.scroll-view_H {
+				padding-top: 30rpx;
+				// background-color: red;
+				padding-bottom: 30rpx;
+				width: 100%;
+				height: 150rpx;
+				// overflow: scroll;
+				white-space: nowrap;
+
+				// display: flex;
+				// flex-direction: row;
+				// flex-wrap: nowrap;
+				// align-items: center;
+				// background-color: red;
+				.scroll-view-item_H {
+					// width: 250rpx;
+					margin: 0 15rpx;
+					background-color: #f5f5f5;
+					display: inline-block !important;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					border-radius: 25rpx;
+					padding: 10rpx 25rpx;
+
+					.box {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						font-size: 28rpx;
+
+						image {
+							width: 82rpx;
+							margin-right: 15rpx;
+						}
+					}
+				}
+			}
+		}
+
+		.list {
+			width: 100%;
+
+			// background-color: red;
+			.box {
+				width: 95%;
+				margin: 0 auto;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				flex-wrap: wrap;
+
+				.item {
+					width: 48%;
+					height: 270rpx;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					border-radius: 15rpx;
+					box-shadow: 0px 10px 10px rgba(0, 0, 0, .2);
+					margin-right: 2%;
+					margin-bottom: 30rpx;
+
+					.box1 {
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						.vertical(1);
+						text-overflow: ellipsis;
+						white-space: nowrap;
+						text-align: center;
+
+						text {
+							width: 250rpx;
+							font-size: 35rpx;
+							font-weight: 600;
+							line-height: 1.5;
+							display: block;
+						}
+
+						.status {
+							color: #FF6F00;
+							font-size: 26rpx;
+							margin: 0 0 !important;
+						}
+					}
+
+					image {
+						width: 100%;
+						height: 150rpx;
+						border-radius: 15rpx;
+					}
+				}
+			}
 		}
 	}
 </style>
