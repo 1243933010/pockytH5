@@ -1,9 +1,14 @@
 <template>
   <view class="page">
     <view class="image-width" :class="bgImg?'image-width1':''">
+     <!-- #ifdef APP -->
       <view class="header" :style="{ paddingTop: iStatusBarHeight + 'px' }">
+     <!-- #endif -->
+	 <!-- #ifdef H5 -->
+	  <view class="header" >
+	 <!-- #endif -->
         <view class="header-icon" @click="openPop">
-          <!-- <image src="../../static/img/logo.jpg" mode="widthFix"></image> -->
+          <image :src="img" mode="widthFix"></image>
 		   <text>{{ headerText }}</text>
         </view>
        <!-- <view class="header-text">
@@ -11,8 +16,8 @@
         </view> -->
         <picker cancel-text="取消1" confirm-text="确定1" @change="bindPickerChange" :value="index" :range="array">
           <view class="header-select">
-            <image class="header-select-icon" :src="imgSrc" mode="widthFix"></image>
-            <image class="header-select-select" src="../../static/img/select_icon.png" mode="widthFix"></image>
+            <!-- <image class="header-select-icon" :src="imgSrc" mode="widthFix"></image> -->
+            <!-- <image class="hea.der-select-select" src="../../static/img/select_icon.png" mode="widthFix"></image> -->
           </view>
         </picker>
       </view>
@@ -32,7 +37,7 @@
 import { setTabbar } from "@/utils/utils.js";
 export default {
   name: "customHeader", 
-  props: ["headerText", "above","bgImg"],
+  props: [ "above","bgImg"],
   data() {
     return {
       iStatusBarHeight: 0,
@@ -42,10 +47,13 @@ export default {
       code: ["zh-Hans","en","fr","es","ara"],
 	  imgSrc: "../../static/img/eg.png",
       locale: {"zh-Hans":0, en: 1, fr:2,es:3,ara:4, },
-      
+      headerText:'',
+	  img:'../../static/img.svg'
     };
   },
   mounted() {
+	  this.headerText = this.$t("app.name1")
+	  
     this.iStatusBarHeight = uni.getSystemInfoSync().statusBarHeight;
     console.log(this.iStatusBarHeight, "系统栏高度");
     let code = uni.getLocale();
@@ -82,12 +90,12 @@ export default {
 }
 
 .image-width {
-  padding-top: 44rpx;
+  // padding-top: 44rpx;
   width: 100%;
   // height: 200rpx;
-  // background: url("/static/img/header_tabber.png") no-repeat center center / 100%;
+  background: url("/static/head_bg.8ba4822.png") no-repeat center center / 100%;
   // background-color: #FEDFC6;
-   background: linear-gradient(0deg, #FDF0B8 0%, #FFE3B1 100%);
+   // background: linear-gradient(0deg, #FDF0B8 0%, #FFE3B1 100%);
   .header {
     display: flex;
     flex-direction: row;
@@ -96,18 +104,25 @@ export default {
     width: calc(100% - 60rpx);
     margin: 0 auto;
     /* #ifdef H5 */
-    padding-top: 44rpx;
+    padding-top: 14rpx;
     /* #endif */
     padding-bottom: 30rpx;
+	// padding: 30rpx 0;
+	
 	color: white;
-	font-weight: 600;
+	// font-weight: 600;
 	font-size: 36rpx;
     .header-icon {
-		color: #403039;
-		font-size: 40rpx;
+		// color: #403039;
+		font-size: 26rpx;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		color: white;
       image {
-        width: 68rpx;
-        border-radius: 50%;
+        width: 70rpx;
+		margin-right: 10rpx;
+        // border-radius: 50%;
       }
     }
 
@@ -135,7 +150,7 @@ export default {
 }
 
 .image-width1{
-	background:url(../../static/img/banner/index_top.png) no-repeat center center / 100%;
+	// background:url(../../static/img/banner/index_top.png) no-repeat center center / 100%;
 }
 .popup-container {
   border-radius: 20rpx;

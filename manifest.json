@@ -69,6 +69,6 @@
         "enable" : false
     },
     "vueVersion" : "2",
-    "fallbackLocale" : "en",
+    "fallbackLocale" : "zh-Hans",
     "locale" : "auto"
 }
