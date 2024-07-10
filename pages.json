@@ -36,6 +36,14 @@
 				"navigationBarTitleText" : "",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path" : "pages/my/orderDetail",
+			"style" : 
+			{
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {

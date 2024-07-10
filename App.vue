@@ -30,6 +30,9 @@ uni-page-body {
 }
 
 .pic {
+	font-size: 0;
+	line-height: 0;
+	
 	image {
 		width: 100%;
 	}

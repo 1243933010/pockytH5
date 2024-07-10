@@ -16,9 +16,9 @@
 			<view class="tab-list">
 				<view class="tab-item" v-for="tab in tabLit" :key="tab.val" :class="{ active: checkedTab === tab.val }" @click="tabHandle(tab)">{{ tab.text }}</view>
 			</view>
-			<scroll-view :scroll-y="true" class="tab-pane">
+			<scroll-view :scroll-y="true" class="tab-pane" @scroll="handleScroll">
 				<view class="order-list" v-if="orderList.length">
-					<view class="order-item">
+					<view class="order-item" @click="goPage(`/pages/my/orderDetail?id=${order.id}`)" v-for="order in orderList">
 						<view class="tag">订单完成</view>
 						<view class="left">
 							<view class="tit">App Store & iTunes US</view>
@@ -67,7 +67,8 @@ export default {
 				}
 			],
 			checkedTab: 1,
-			orderList: [1]
+			orderList: [{id: 1}],
+			isBottomReached: false,
 		};
 	},
 	computed: {},
@@ -82,8 +83,29 @@ export default {
 			getOrderList()
 		},
 		getOrderList() {
-			// 获取订单列表
-		}
+		    // 这里是加载更多数据的逻辑
+		    // 假设你从服务器获取了更多数据并更新了list
+		    // ...
+		    // 加载完成后，重置isBottomReached为false，以便下次可以重新触发加载
+		    this.isBottomReached = false;
+		},
+		handleScroll(e) {
+		    // 获取滚动位置和总滚动高度
+		    const scrollTop = e.detail.scrollTop;
+		    const scrollHeight = e.detail.scrollHeight;
+		    // 假设你有一个方法来获取screenHeight，这通常是窗口的高度或者scroll-view的可见高度
+		    const screenHeight = uni.getSystemInfoSync().windowHeight; // 或者使用其他方式获取
+				
+		    // 判断是否接近底部（这里用了10作为阈值，你可以根据需要调整）
+		    if (scrollTop + screenHeight >= scrollHeight - 10) {
+		        if (!this.isBottomReached) {
+		            this.isBottomReached = true;
+		            this.getOrderList(); // 加载更多数据
+		        }
+		    } else {
+		        this.isBottomReached = false;
+		    }
+		},
 	}
 };
 </script>
