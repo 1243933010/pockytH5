@@ -30,6 +30,7 @@
 </template>
 
 <script>
+	import {$request} from '@/utils/request.js'
 	export default {
 		data() {
 			return {

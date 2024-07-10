@@ -41,7 +41,7 @@
 					<view class="item" v-for="(item,index) in list" :key="index">
 						<image :src="item.img" mode="aspectFill"></image>
 						<view class="box1">
-							<text>{{item.name}}</text>
+							<text class="text">{{item.name}}</text>
 							<view class="status">{{$t("app.name9")}}1%</view>
 						</view>
 					</view>
@@ -53,6 +53,7 @@
 
 <script>
 	import customHeader from "@/components/customHeader/customHeader.vue";
+	import {$request} from '@/utils/request.js'
 	export default {
 		components: {
 			customHeader,
@@ -162,11 +163,13 @@
 
 		},
 		methods: {
-			getList() {
+			async getList() {
 
 			},
 			scrollTab(item, index) {
 				this.scrollIndex = index;
+				this.reqInfo.page = 1;
+				this.getList();
 			}
 		}
 	}
@@ -264,7 +267,7 @@
 			.scroll-view_H {
 				padding-top: 30rpx;
 				// background-color: red;
-				padding-bottom: 30rpx;
+				// padding-bottom: 30rpx;
 				width: 100%;
 				height: 150rpx;
 				// overflow: scroll;
@@ -305,6 +308,7 @@
 			width: 100%;
 
 			// background-color: red;
+			padding-bottom: 120rpx;
 			.box {
 				width: 95%;
 				margin: 0 auto;
@@ -327,20 +331,20 @@
 					.box1 {
 						display: flex;
 						flex-direction: column;
-						align-items: center;
-						.vertical(1);
-						text-overflow: ellipsis;
-						white-space: nowrap;
-						text-align: center;
-
-						text {
-							width: 250rpx;
+						.text {
+							width: 270rpx;
 							font-size: 35rpx;
 							font-weight: 600;
 							line-height: 1.5;
 							display: block;
+							overflow: hidden;
+							white-space: nowrap;
+							text-overflow: ellipsis;
 						}
-
+						.status0{
+							font-size: 26rpx;
+							line-height: 2;
+						}
 						.status {
 							color: #FF6F00;
 							font-size: 26rpx;
