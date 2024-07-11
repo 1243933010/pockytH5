@@ -18,7 +18,7 @@
 			</view>
 			<scroll-view :scroll-y="true" class="tab-pane" @scroll="handleScroll">
 				<view class="order-list" v-if="orderList.length">
-					<view class="order-item" @click="goPage(`/pages/my/orderDetail?id=${order.id}`)" v-for="order in orderList">
+					<view class="order-item" @click="goPage(`/pages/my/orderDetail`)" v-for="order in orderList">
 						<view class="tag">订单完成</view>
 						<view class="left">
 							<view class="tit">App Store & iTunes US</view>
