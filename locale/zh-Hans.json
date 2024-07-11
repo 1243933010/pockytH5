@@ -19,6 +19,16 @@
 	"app.name14": "忘记密码?",
 	"app.name15": "登录",
 	"app.name16": "创建账号",
+	"app.name17": "返回",
+	"app.name18": "输入金额",
+	"app.name19": "已同意",
+	"app.name20": "条款和条件",
+	"app.name21": "和",
+	"app.name22": "隐私政策",
+	"app.name23": " 一旦售出，非礼品卡自身问题不支持退款、换货/退货",
+	"app.name24": "购卡须知",
+	"app.name25": "关于商家",
+	"app.name26": "立即购买",
 	
 	
 	"locale.auto": "系统",
@@ -35,5 +45,14 @@
 	"api.message": "提示",
   "schema.name": "姓名",
 	"schema.add": "新增",
-	"schema.add-success": "新增成功"
+	"schema.add-success": "新增成功",
+	"app.yue1": "订单",
+	"app.yue2": "查看",
+	"app.yue3": "联系我们",
+	"app.yue4": "全部",
+	"app.yue5": "订单完成",
+	"app.yue6": "订单失败",
+	"app.yue7": "处理中",
+	"app.yue8": "暂无订单",
+	"app.yue9": "您可以在主页挑选你最喜欢的礼品卡"
 }

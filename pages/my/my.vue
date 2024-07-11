@@ -4,14 +4,14 @@
 		<customHeader />
 		<view class="page-container">
 			<view class="my-page">
-				<view class="tit">订单</view>
+				<view class="tit">{{$t("app.yue1")}}</view>
 				<view class="list">
 					<view class="item" @click="goPage(`/pages/my/order`)">
 						<view class="left">
 							<view class="pic">
 								<image src="../../static/order.svg" mode="widthFix"></image>
 							</view>
-							<view class="text">订单</view>
+							<view class="text">{{$t("app.yue1")}}</view>
 						</view>
 						<view class="pic icon">
 							<image src="../../static/arrow_right.svg" mode="widthFix"></image>
@@ -30,14 +30,14 @@
 					</view>
 				</view>
 				<view class="terms">
-					<text>查看</text>
-					<text class="a-link">《条款和条件》</text>
+					<text>{{$t("app.yue2")}}</text>
+					<text class="a-link">《{{$t("app.name20")}}》</text>
 					<text>和</text>
-					<text class="a-link">《隐私政策》</text>
+					<text class="a-link">《{{$t("app.name22")}}》</text>
 				</view>
 			</view>
 			<view class="contact-us terms">
-				<view class="text">联系我们</view>
+				<view class="text">{{$t("app.yue3")}}</view>
 				<view class="a-link">shopsupports@pockyt.io</view>
 			</view>
 		</view>
@@ -99,6 +99,9 @@ export default {
 						.pic {
 							margin-right: 16rpx;
 							width: 66rpx;
+						}
+						.text{
+							font-size: 30rpx;
 						}
 					}
 
