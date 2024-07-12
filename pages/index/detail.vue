@@ -80,7 +80,8 @@
 	} from '@/utils/request.js'
 	export default {
 		components: {
-			customHeader,
+			customHeader
+			
 		},
 		data() {
 			return {
@@ -102,6 +103,9 @@
 				}
 			}
 		},
+		onLoad(e) {
+			this.getDetail(e.id)
+		},
 		methods: {
 			back(){
 				uni.navigateBack({
@@ -118,7 +122,11 @@
 				console.log(e)
 				this.title = e.value;
 				this.price = e.value //键盘输入值
-			}
+			},
+			async getDetail(id){
+				let res = await $request('goodsClassDetail',`/${id}`)
+				console.log(res)
+			},
 		}
 	}
 </script>

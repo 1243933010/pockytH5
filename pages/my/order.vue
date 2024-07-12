@@ -80,7 +80,7 @@ export default {
 	methods: {
 		goPage(url) {
 			console.log(url);
-			// uni.navigateTo({ url });
+			uni.navigateTo({ url });
 		},
 		tabHandle(tab) {
 			this.checkedTab = tab.val;

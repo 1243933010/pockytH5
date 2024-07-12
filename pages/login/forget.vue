@@ -5,21 +5,18 @@
 		</view>
 		<view class="tip">
 			<view class="title">
-				<text>{{$t("app.name16")}}</text>
-			</view>
-			<view class="label">
-				<text>{{$t("app.name27")}}</text>
+				<text>{{$t("app.name58")}}</text>
 			</view>
 		</view>
 		<view class="form">
-			<view class="input">
-				<input v-model="requestInfo.name" type="text" :placeholder="$t('app.name28')" />
-			</view>
-			<view class="input">
-				<input  v-model="requestInfo.first_name" type="text" :placeholder="$t('app.name29')" />
-			</view>
+		
 			<view class="input">
 				<input  v-model="requestInfo.email" type="text" :placeholder="$t('app.name30')" />
+			</view>
+			<view class="input">
+				<input v-model="requestInfo.code" type="text" :placeholder="$t('app.name57')" />
+				<view class="get" v-if="typeof codeText =='number'">{{codeText}}</view>
+				<view class="get" v-if="typeof codeText =='string'" @click="handleTime">{{codeLocale}}</view>
 			</view>
 			<view class="input">
 				<input  v-model="requestInfo.password" :password="passwordType" :placeholder="$t('app.name31')"  />
@@ -42,56 +39,40 @@
 		
 			<view class="btn" @click="nextClick">
 				<view class="">
-					<text>{{$t("app.name33")}}</text>
+					<text>{{$t("app.name59")}}</text>
 				</view>
 			</view>
 			<view class="create" @click="back">
-				<text>{{$t("app.name34")}}</text>
+				<text>{{$t("app.name17")}}</text>
 			</view>
-			
-			<view class="other">
-				<view class="xieyi">
-					<checkbox-group @change="change">
-						<label>
-							<checkbox style="transform:scale(0.8)" value="cb" checked="true" />
-						</label>
-					</checkbox-group>
-					<view class="text">
-						<text>{{$t("app.name19")}} <text class="text1" @click="goUrl('/pages/index/xieyi')">《{{$t("app.name20")}}》</text>{{$t("app.name21")}}  <text class="text1"  @click="goUrl('/pages/index/xieyi')">《{{$t("app.name22")}}》</text></text>
-					</view>
-				</view>
-			</view>
+
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		$request,
+		filesUrl
+	} from "@/utils/request.js";
 	export default {
 		data() {
 			return {
-				checkList:['cd'],
 				passwordType:true,
 				confirmPasswordType:true,
 				requestInfo:{
 					email:"",
 					password:'',
-					first_name:"",
-					name:'',
 					code:"",
 					confirmPassword:''
-				}
+				},
+				codeText: '',
 			};
 		},
 		computed:{
-			ulList(){
-				return [
-					{name:this.$t("app.name36")},
-					{name:this.$t("app.name37")},
-					{name:this.$t("app.name38")},
-					{name:this.$t("app.name39")},
-					{name:this.$t("app.name40")},
-				]
-			}
+			codeLocale() {
+				return this.$t("login.get-code");
+			},
 		},
 		methods:{
 			changSet(bool){
@@ -117,14 +98,39 @@
 					url:"/pages/login/login"
 				})
 			},
-			nextClick(){
-				if(!this.checkList.length){
-					uni.showToast({
-						icon:'none',
-						title:this.$t("app.name54")
-					})
+			async sendEmail() {
+				let res;
+				res = await $request("getCode", {
+					email: this.onloadInfo.email,
+					method: "findPassword"
+				})
+			
+				uni.showToast({
+					icon: "none",
+					title: res.data.msg,
+				});
+			},
+			handleTime() {
+				if(!this.requestInfo.email){
 					return
 				}
+				if (typeof this.codeText == "number") {
+					return false
+				}
+				console.log(typeof this.codeText == "number")
+				this.codeText = 60;
+				this.sendEmail();
+				this.timeFnc = setInterval(() => {
+					this.codeText--;
+					if (this.codeText == 0) {
+						this.codeText = this.$t("login.get-code");
+						clearInterval(this.timeFnc);
+						this.timeFnc = null
+					}
+				}, 1000)
+			},
+			async nextClick(){
+			
 				if(!this.containsHalfWidthSymbol(this.requestInfo.password)){
 					uni.showToast({
 						icon:'none',
@@ -139,9 +145,20 @@
 					})
 					return
 				}
-				uni.navigateTo({
-					url:`./email?params=${JSON.stringify(this.requestInfo)}`
-				})
+				let data = await $request("findPassword", {...this.requestInfo});
+				uni.showToast({
+					icon: "none",
+					title: data.data.msg,
+				});
+				if (data.data.code == 200) {
+					uni.setStorageSync("token", `Bearer ${data.data.data.token}`);
+					uni.reLaunch({
+						url: "/pages/index/index",
+					});
+				}
+				// uni.navigateTo({
+				// 	url:`./email?params=${JSON.stringify(this.requestInfo)}`
+				// })
 			}
 		}
 	}
@@ -237,6 +254,10 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
+				.get{
+					font-size: 25rpx;
+					color: #41AF74;
+				}
 				.eye{
 					width: 35rpx;
 					image{

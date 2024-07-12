@@ -5,48 +5,27 @@
 		</view>
 		<view class="tip">
 			<view class="title">
-				<text>{{$t("app.name16")}}</text>
+				<text>{{$t("app.name50")}}</text>
 			</view>
 			<view class="label">
-				<text>{{$t("app.name27")}}</text>
+				<text>{{$t("app.name51")}} <text style="color:#41AF74 ;">{{onloadInfo.email}}</text> </text>
 			</view>
 		</view>
 		<view class="form">
 			<view class="input">
-				<input v-model="requestInfo.name" type="text" :placeholder="$t('app.name28')" />
+				<input v-model="requestInfo.code" type="text" :placeholder="$t('app.name57')" />
+				<view class="get" v-if="typeof codeText =='number'">{{codeText}}</view>
+				<view class="get" v-if="typeof codeText =='string'" @click="handleTime">{{codeLocale}}</view>
 			</view>
-			<view class="input">
-				<input  v-model="requestInfo.first_name" type="text" :placeholder="$t('app.name29')" />
-			</view>
-			<view class="input">
-				<input  v-model="requestInfo.email" type="text" :placeholder="$t('app.name30')" />
-			</view>
-			<view class="input">
-				<input  v-model="requestInfo.password" :password="passwordType" :placeholder="$t('app.name31')"  />
-			   <image  @click="changSet('passwordType')" class="eye"  src="../../static/eye.svg" mode="widthFix"></image>
-			</view>
-			<view class="ul">
-				<view class="title">
-					<text>{{$t("app.name35")}}</text>
-				</view>
-				<ul class="content">
-					<li class="item" :class="index+1==ulList.length?'item1':''" v-for="(item,index) in ulList" :key="index">
-						<text>{{item.name}}</text>
-					</li>
-				</ul>
-			</view>
-			<view class="input">
-				<input v-model="requestInfo.confirmPassword" :password="confirmPasswordType" :placeholder="$t('app.name32')"  />
-			     <image  @click="changSet('confirmPasswordType')" class="eye" src="../../static/eye.svg" mode="widthFix"></image>
-			</view>
-		
-			<view class="btn" @click="nextClick">
+			
+			
+			<view class="btn" @click="confirm">
 				<view class="">
-					<text>{{$t("app.name33")}}</text>
+					<text>{{$t("app.name53")}}</text>
 				</view>
 			</view>
 			<view class="create" @click="back">
-				<text>{{$t("app.name34")}}</text>
+				<text>{{$t("app.name52")}}</text>
 			</view>
 			
 			<view class="other">
@@ -66,82 +45,111 @@
 </template>
 
 <script>
+	import {
+		$request,
+		filesUrl
+	} from "@/utils/request.js";
 	export default {
 		data() {
 			return {
-				checkList:['cd'],
-				passwordType:true,
-				confirmPasswordType:true,
 				requestInfo:{
-					email:"",
-					password:'',
-					first_name:"",
-					name:'',
 					code:"",
-					confirmPassword:''
-				}
+				},
+				codeText: '',
+				onloadInfo:{}
 			};
 		},
 		computed:{
-			ulList(){
-				return [
-					{name:this.$t("app.name36")},
-					{name:this.$t("app.name37")},
-					{name:this.$t("app.name38")},
-					{name:this.$t("app.name39")},
-					{name:this.$t("app.name40")},
-				]
+			codeLocale() {
+				return this.$t("login.get-code");
+			},
+		},
+		onLoad(e){
+			
+			if(e.params){
+				this.onloadInfo = JSON.parse(e.params);
+				this.sendEmail();
 			}
+			console.log(this.onloadInfo)
 		},
 		methods:{
-			changSet(bool){
-				this[bool] = !this[bool];
-			},
-			change(e){
-				this.checkList = e.detail.value;
-			},
 			goUrl(url){
 				uni.navigateTo({
 					url
 				})
 			},
-			containsHalfWidthSymbol(str) {
-			    // 定义一个包含半角符号的正则表达式
-			    const regex = /[\x21-\x2F\x3A-\x40\x5B-\x60\x7B-\x7E]/;
-			    // 使用正则表达式测试字符串
-			    return regex.test(str);
-			},
 			back(){
-				// uni.navigateBack({delta:1})
-				uni.reLaunch({
-					url:"/pages/login/login"
-				})
+				uni.navigateBack({delta:1})
 			},
-			nextClick(){
-				if(!this.checkList.length){
-					uni.showToast({
-						icon:'none',
-						title:this.$t("app.name54")
-					})
-					return
+			handleTime() {
+			
+				if (typeof this.codeText == "number") {
+					return false
 				}
-				if(!this.containsHalfWidthSymbol(this.requestInfo.password)){
-					uni.showToast({
-						icon:'none',
-						title:this.$t("app.name55")
-					})
-					return
-				}
-				if(this.requestInfo.password!==this.requestInfo.confirmPassword){
-					uni.showToast({
-						icon:'none',
-						title:this.$t("app.name56")
-					})
-					return
-				}
-				uni.navigateTo({
-					url:`./email?params=${JSON.stringify(this.requestInfo)}`
+				console.log(typeof this.codeText == "number")
+				this.codeText = 60;
+				this.sendEmail();
+				this.timeFnc = setInterval(() => {
+					this.codeText--;
+					if (this.codeText == 0) {
+						this.codeText = this.$t("login.get-code");
+						clearInterval(this.timeFnc);
+						this.timeFnc = null
+					}
+				}, 1000)
+			},
+			async sendEmail() {
+				let res;
+				res = await $request("getCode", {
+					email: this.onloadInfo.email,
+					method: "register"
 				})
+			
+				uni.showToast({
+					icon: "none",
+					title: res.data.msg,
+				});
+			},
+			async confirm(){
+				
+				// this.formData.password_confirmation = this.formData.password;
+				let data = await $request("register", {...this.onloadInfo,...this.requestInfo});
+				uni.showToast({
+					icon: "none",
+					title: data.data.msg,
+				});
+				if (data.data.code == 200) {
+					uni.setStorageSync("token", `Bearer ${data.data.data.token}`);
+					uni.reLaunch({
+						url: "/pages/index/index",
+					});
+					// let {
+					// 	invite_code,
+					// 	type,
+					// 	id
+					// } = this.onLoadParams;
+					// if (invite_code || type) {
+					// 	let obj = {
+					// 		charityConsultationDetail: '/pages/index/detail/charityConsultationDetail',
+					// 		passingLoveDetail: '/pages/index/detail/passingLoveDetail',
+					// 		activityDetail: '/pages/me/activity/activityDetail'
+					// 	}
+					// 	uni.reLaunch({
+					// 		url: `${obj[type]}?invite_code=${invite_code}&type=${type}&id=${id}`
+					// 	})
+					// } else {
+					// 	uni.reLaunch({
+					// 		url: "/pages/index/index",
+					// 	});
+					// }
+					// uni.reLaunch({
+					// 	url: "/pages/index/index",
+					// });
+				} else {
+					this.codeText = this.$t("login.get-code");
+					clearInterval(this.timeFnc);
+					this.timeFnc = null
+				}
 			}
 		}
 	}
@@ -152,7 +160,6 @@
 		height: 100%;
 		// background-color: red;
 	}
-
 	/deep/ .uni-checkbox-input-checked{
 		background-color: rgb(27, 171, 162);
 		border: none;
@@ -173,7 +180,7 @@
 		background: url(../../static/bk.svg) no-repeat center center / 100% 100%;
 		.logo{
 			width: 100%;
-			padding-top: 70rpx;
+			padding-top: 170rpx;
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -199,33 +206,7 @@
 			width: 100%;
 			display: flex;
 			flex-direction: column;
-			.ul{
-				width: 80%;
-				margin: 0 auto;
-				.title{
-					color: #555;
-					font-size: 26rpx;
-					margin-bottom: 30rpx;
-				}
-				.content{
-					width: 100%;
-					display: flex;
-					justify-content: space-between;
-					align-items: center;
-					flex-wrap: wrap;
-					padding-left: 30rpx;
-					.item{
-						color: #999;
-						width: 50%;
-						font-size: 24rpx;
-						text-align: left;
-						margin-bottom: 10rpx;
-					}
-					.item1{
-						width: 100% !important;
-					}
-				}
-			}
+			
 			// align-items: center;
 			.input{
 				width: 80%;
@@ -237,11 +218,9 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				.eye{
-					width: 35rpx;
-					image{
-						width: 100%;
-					}
+				.get{
+					font-size: 25rpx;
+					color: #41AF74;
 				}
 				input{
 					font-size: 26rpx;
