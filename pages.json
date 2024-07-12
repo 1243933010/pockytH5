@@ -49,7 +49,8 @@
 			"path" : "pages/login/register",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "",
+				"navigationStyle": "custom"
 			}
 		},
 		{
