@@ -44,6 +44,13 @@
 				"navigationBarTitleText": "uni-app",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path" : "pages/login/register",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 	],
 	"globalStyle": {

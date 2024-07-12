@@ -1,6 +1,6 @@
 import requestObj from '@/utils/requestObj.js'
 export let filesUrl = 'https://maojian886.oss-ap-northeast-1.aliyuncs.com/';
-export let url = 'http://2405.devnft.top'
+export let url = 'http://8.210.175.5:8001'
 export const $request = (requestName,params,headerType=0)=>{
 	let reqObj = requestObj[requestName];
 	let token = uni.getStorageSync('token');
