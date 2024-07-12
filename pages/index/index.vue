@@ -38,7 +38,7 @@
 			</view>
 			<view class="list">
 				<view class="box">
-					<view class="item" v-for="(item,index) in list" :key="index">
+					<view class="item" v-for="(item,index) in list" :key="index" @click="clickDetail(item)">
 						<image :src="item.img" mode="aspectFill"></image>
 						<view class="box1">
 							<text class="text">{{item.name}}</text>
@@ -163,6 +163,11 @@
 
 		},
 		methods: {
+			clickDetail(item){
+				uni.navigateTo({
+					url:'./detail'
+				})
+			},
 			async getList() {
 
 			},

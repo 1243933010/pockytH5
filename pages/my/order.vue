@@ -18,7 +18,7 @@
 			</view>
 			<scroll-view :scroll-y="true" class="tab-pane" @scroll="handleScroll">
 				<view class="order-list" v-if="orderList.length">
-					<view class="order-item" @click="goPage(`/pages/my/orderDetail?id=${order.id}`)" v-for="order in orderList">
+					<view class="order-item" @click="goPage(`/pages/my/orderDetail`)" v-for="order in orderList">
 						<view class="tag">订单完成</view>
 						<view class="left">
 							<view class="tit">App Store & iTunes US</view>
@@ -32,7 +32,7 @@
 						</view>
 					</view>
 				</view>
-				<Empty v-else tit="暂无订单" desc="您可以在主页挑选你最喜欢的礼品卡"></Empty>
+				<Empty v-else :tit="$t('app.yue8')" :desc="$t('app.yue9')"></Empty>
 			</scroll-view>
 		</view>
 	</view>
@@ -48,35 +48,39 @@ export default {
 	},
 	data() {
 		return {
-			tabLit: [
-				{
-					val: 1,
-					text: '全部'
-				},
-				{
-					val: 2,
-					text: '订单完成'
-				},
-				{
-					val: 3,
-					text: '订单失败'
-				},
-				{
-					val: 4,
-					text: '处理中'
-				}
-			],
+			
 			checkedTab: 1,
 			orderList: [{id: 1}],
 			isBottomReached: false,
 		};
 	},
-	computed: {},
+	computed: {
+		tabLit(){
+			return [
+				{
+					val: 1,
+					text: this.$t("app.yue4")
+				},
+				{
+					val: 2,
+					text:  this.$t("app.yue5")
+				},
+				{
+					val: 3,
+					text:  this.$t("app.yue6")
+				},
+				{
+					val: 4,
+					text:  this.$t("app.yue7")
+				}
+			]
+		}
+	},
 	onLoad() {},
 	methods: {
 		goPage(url) {
 			console.log(url);
-			uni.navigateTo({ url });
+			// uni.navigateTo({ url });
 		},
 		tabHandle(tab) {
 			this.checkedTab = tab.val;
