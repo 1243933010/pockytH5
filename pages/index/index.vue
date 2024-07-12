@@ -111,21 +111,36 @@
 			},
 			clickDetail(item){
 			
-				if(item.child.length==0){
-					uni.navigateTo({
-						url:`./detail?id=${item.id}`
-					})
-				}else{
-					uni.setStorageSync('classList',item.child)
-					uni.navigateTo({
-						url:'./class'
-					})
-				}
-				
+				// if(item.child.length==0){
+				// 	uni.navigateTo({
+				// 		url:`./detail?id=${item.id}`
+				// 	})
+				// }else{
+				// 	uni.setStorageSync('classList',item.child)
+				// 	uni.navigateTo({
+				// 		url:'./class'
+				// 	})
+				// }
+				this.getList(item.id)
 			
 			},
-			async getList() {
-
+			async getList(id) {
+				let res = await $request('goodsList',`/${id}`)
+				console.log(res)
+				 if(res.data.code==200){
+					 // uni.navigateTo({
+					 // 	url:`./class?id=${id}`
+					 // })
+					 if(res.data.data.data.length==1){
+						 uni.navigateTo({
+						 	url:`./detail?id=${res.data.data.data[0].id}`
+						 })
+					 }else if(res.data.data.data.length>1){
+						 	uni.navigateTo({
+						 		url:`./class?id=${id}`
+						 	})
+					 }
+				 }
 			},
 			scrollTab(item, index) {
 				this.scrollIndex = index;

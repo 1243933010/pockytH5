@@ -16,9 +16,10 @@
 				<input type="text" v-model="requestInfo.email" :placeholder="$t('app.name12')" />
 			</view>
 			<view class="input">
-				<input type="text" v-model="requestInfo.password"  :placeholder="$t('app.name13')" />
+				<input type="text" v-model="requestInfo.password" :password="passwordType"  :placeholder="$t('app.name13')" />
+				<image  @click="changSet('passwordType')" class="eye"  src="../../static/eye.svg" mode="widthFix"></image>
 			</view>
-			<view class="forget">
+			<view class="forget" @click="goUrl('./forget')">
 				<text>{{$t("app.name14")}}</text>
 			</view>
 			<view class="btn" @click="loginHandle">
@@ -41,6 +42,7 @@
 	export default {
 		data() {
 			return {
+				passwordType:true,
 				requestInfo:{
 					email:"",
 					password:""
@@ -48,6 +50,9 @@
 			};
 		},
 		methods:{
+			changSet(bool){
+				this[bool] = !this[bool];
+			},
 			goUrl(url){
 				uni.navigateTo({
 					url
@@ -78,7 +83,9 @@
 					} = data;
 					uni.setStorageSync("token", `Bearer ${token}`); // 存储token
 					uni.setStorageSync("userinfo", userinfo); // 存储token
-			
+					uni.reLaunch({
+						url:'/pages/index/index'
+					})
 
 				});
 			},
@@ -131,6 +138,15 @@
 				margin: 25rpx auto;
 				box-sizing: border-box;
 				padding: 25rpx 30rpx;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				.eye{
+					width: 35rpx;
+					image{
+						width: 100%;
+					}
+				}
 				input{
 					font-size: 26rpx;
 				}

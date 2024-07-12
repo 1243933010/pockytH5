@@ -13,10 +13,10 @@
 			</view>
 			<view class="goods">
 				<view class="img">
-					<image :src="goodsInfo.url" mode="widthFix"></image>
+					<image :src="goodsInfo.goods_img" mode="widthFix"></image>
 				</view>
 				<view class="title">
-					<text>{{goodsInfo.title}}</text>
+					<text>{{goodsInfo.goods_name}}</text>
 				</view>
 				<view class="form">
 					<view class="form-title">
@@ -53,7 +53,8 @@
 					<text class="title">{{$t("app.name24")}}</text>
 				</view>
 				<view class="text2">
-					<text>test</text>
+					<!-- <text>test</text> -->
+					<rich-text :nodes="goodsInfo.goods_detail"></rich-text>
 				</view>
 			</view>
 			<view class="rich rich1">
@@ -65,7 +66,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="pay-btn" :class="checkBoxValue.length>0?'disabled':''">
+		<view @click="payConfirm" class="pay-btn" :class="checkBoxValue.length>0?'disabled':''">
 			<text>{{$t("app.name26")}}</text>
 		</view>
 		<master-keyboard ref="keyboard" keyboardtype="digit" :randomNumber="true" :newCar="false" :defaultValue="title"
@@ -86,12 +87,12 @@
 		data() {
 			return {
 				goodsInfo: {
-					url: '../../static/head_bg.8ba4822.png',
-					title: 'test'
+					min:'0',
+					max:'1'
 				},
 				price: '',
 				title: '',
-				checkBoxValue:[]
+				checkBoxValue:['cb']
 			};
 		},
 		computed: {
@@ -99,7 +100,7 @@
 				if (this.price) {
 					return this.price
 				} else {
-					return `$1-2000`
+					return `$${this.goodsInfo.min*1}-${this.goodsInfo.max*1}`
 				}
 			}
 		},
@@ -125,8 +126,16 @@
 			},
 			async getDetail(id){
 				let res = await $request('goodsClassDetail',`/${id}`)
-				console.log(res)
+				// console.log(res)
+				if(res.data.code==200){
+					this.goodsInfo = res.data.data;
+				}
 			},
+			async payConfirm(){
+				if(this.checkBoxValue.length==0){
+					return
+				}
+			}
 		}
 	}
 </script>

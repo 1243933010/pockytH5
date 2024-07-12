@@ -5,9 +5,9 @@
 			<view class="list">
 				<view class="box">
 					<view class="item" v-for="(item,index) in list" :key="index" @click="clickDetail(item)">
-						<image :src="item.class_img" mode="aspectFill"></image>
+						<image :src="item.goods_img" mode="aspectFill"></image>
 						<view class="box1">
-							<text class="text">{{item.class_name}}</text>
+							<text class="text">{{item.goods_name}}</text>
 							<view class="status">{{$t("app.name9")}}1%</view>
 						</view>
 					</view>
@@ -31,25 +31,35 @@
 				list:[]
 			};
 		},
-		onLoad(){
-			let list = uni.getStorageSync('classList')
-			if(list){
-				this.list = list;
-			}
+		onLoad(e){
+			// let list = uni.getStorageSync('classList')
+			// if(list){
+			// 	this.list = list;
+			// }
+			this.getList(e.id)
 		},
 		methods:{
+			async getList(id) {
+				let res = await $request('goodsList',`/${id}`)
+				console.log(res)
+				 if(res.data.code==200){
+					 this.list = res.data.data.data;
+				 }
+			},
 			clickDetail(item){
-			
-				if(item.child.length==0){
-					uni.navigateTo({
-						url:`./detail?id=${item.id}`
-					})
-				}else{
-					// uni.setStorageSync('classList',item.child)
-					// uni.navigateTo({
-					// 	url:'./class'
-					// })
-				}
+			uni.navigateTo({
+				url:`./detail?id=${item.id}`
+			})
+				// if(item.child.length==0){
+				// 	uni.navigateTo({
+				// 		url:`./detail?id=${item.id}`
+				// 	})
+				// }else{
+				// 	// uni.setStorageSync('classList',item.child)
+				// 	// uni.navigateTo({
+				// 	// 	url:'./class'
+				// 	// })
+				// }
 				
 			
 			},

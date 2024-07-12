@@ -60,6 +60,11 @@ export default {
     if (code) {
       this.imgSrc = this.iconList[this.locale[code]];
     }
+	let userinfo = uni.getStorageSync('userinfo');
+	console.log(userinfo)
+	if(userinfo){
+		this.headerText = userinfo.first_name
+	}
   },
   methods: {
     bindPickerChange: function (e) {

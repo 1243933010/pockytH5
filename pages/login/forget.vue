@@ -73,6 +73,15 @@
 			codeLocale() {
 				return this.$t("login.get-code");
 			},
+			ulList(){
+				return [
+					{name:this.$t("app.name36")},
+					{name:this.$t("app.name37")},
+					{name:this.$t("app.name38")},
+					{name:this.$t("app.name39")},
+					{name:this.$t("app.name40")},
+				]
+			}
 		},
 		methods:{
 			changSet(bool){
@@ -101,7 +110,7 @@
 			async sendEmail() {
 				let res;
 				res = await $request("getCode", {
-					email: this.onloadInfo.email,
+					email: this.requestInfo.email,
 					method: "findPassword"
 				})
 			
@@ -112,7 +121,7 @@
 			},
 			handleTime() {
 				if(!this.requestInfo.email){
-					return
+					return false
 				}
 				if (typeof this.codeText == "number") {
 					return false
@@ -152,9 +161,11 @@
 				});
 				if (data.data.code == 200) {
 					uni.setStorageSync("token", `Bearer ${data.data.data.token}`);
-					uni.reLaunch({
-						url: "/pages/index/index",
-					});
+					setTimeout(()=>{
+						uni.reLaunch({
+							url: "/pages/index/index",
+						});
+					},1000)
 				}
 				// uni.navigateTo({
 				// 	url:`./email?params=${JSON.stringify(this.requestInfo)}`
