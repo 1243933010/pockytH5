@@ -125,6 +125,14 @@
 				"navigationBarTitleText" : "",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path" : "pages/index/product",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {
