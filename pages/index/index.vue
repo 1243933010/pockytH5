@@ -30,8 +30,8 @@
 					<view class="scroll-view-item_H uni-bg-red" :class="scrollIndex==index?'active':''"
 						v-for="(item,index) in scroll" :key="index" @click="scrollTab(item,index)">
 						<view class="box">
-							<image :src="item.img" mode="widthFix"></image>
-							<text>{{item.name}}</text>
+							<image :src="item.class_img" mode="widthFix"></image>
+							<text>{{item.class_name}}</text>
 						</view>
 					</view>
 				</scroll-view>
@@ -39,9 +39,9 @@
 			<view class="list">
 				<view class="box">
 					<view class="item" v-for="(item,index) in list" :key="index" @click="clickDetail(item)">
-						<image :src="item.img" mode="aspectFill"></image>
+						<image :src="item.class_img" mode="aspectFill"></image>
 						<view class="box1">
-							<text class="text">{{item.name}}</text>
+							<text class="text">{{item.class_name}}</text>
 							<view class="status">{{$t("app.name9")}}1%</view>
 						</view>
 					</view>
@@ -64,32 +64,8 @@
 					page: 1
 				},
 				scrollIndex: 0,
-				list: [{
-						name: 'testsdsdsdsddddddddddddddddddd',
-						id: "",
-						img: '../../static/head_bg.8ba4822.png'
-					},
-					{
-						name: 'test',
-						id: "",
-						img: '../../static/head_bg.8ba4822.png'
-					},
-					{
-						name: 'test',
-						id: "",
-						img: '../../static/head_bg.8ba4822.png'
-					},
-					{
-						name: 'test',
-						id: "",
-						img: '../../static/head_bg.8ba4822.png'
-					},
-					{
-						name: 'test',
-						id: "",
-						img: '../../static/head_bg.8ba4822.png'
-					},
-				]
+				scroll:[],
+				list: []
 			}
 		},
 		computed: {
@@ -116,65 +92,46 @@
 					},
 				]
 			},
-			scroll() {
-				return [{
-						name: this.$t("app.name2"),
-						id: "",
-						img: '../../static/5.svg'
-					},
-					{
-						name: this.$t("app.name3"),
-						id: "",
-						img: '../../static/6.svg'
-					},
-					{
-						name: this.$t("app.name4"),
-						id: "",
-						img: '../../static/7.svg'
-					},
-					{
-						name: this.$t("app.name5"),
-						id: "",
-						img: '../../static/8.svg'
-					},
-					{
-						name: this.$t("app.name6"),
-						id: "",
-						img: '../../static/9.svg'
-					},
-					{
-						name: this.$t("app.name7"),
-						id: "",
-						img: '../../static/11.svg'
-					},
-					{
-						name: this.$t("app.name8"),
-						id: "",
-						img: '../../static/12.svg'
-					},
-				]
-			}
 		},
 		onReachBottom() {
 			this.reqInfo.page++
 			this.getList();
 		},
 		onLoad() {
-
+			this.getClass()
 		},
+		
 		methods: {
+			async getClass(){
+				let res = await $request('goodsClass','/0')
+				 if(res.data.code==200){
+					 this.scroll = res.data.data;
+					 this.list = this.scroll[0].child;
+				 }
+			},
 			clickDetail(item){
-				uni.navigateTo({
-					url:'./detail'
-				})
+			
+				if(item.child.length==0){
+					uni.navigateTo({
+						url:`./detail?id=${item.id}`
+					})
+				}else{
+					uni.setStorageSync('classList',item.child)
+					uni.navigateTo({
+						url:'./class'
+					})
+				}
+				
+			
 			},
 			async getList() {
 
 			},
 			scrollTab(item, index) {
 				this.scrollIndex = index;
-				this.reqInfo.page = 1;
-				this.getList();
+				this.list = this.scroll[index].child;
+				// this.reqInfo.page = 1;
+				// this.getList();
 			}
 		}
 	}

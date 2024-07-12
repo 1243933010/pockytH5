@@ -1,6 +1,6 @@
 import requestObj from '@/utils/requestObj.js'
 export let filesUrl = 'https://maojian886.oss-ap-northeast-1.aliyuncs.com/';
-export let url = 'http://2405.devnft.top'
+export let url = 'http://8.210.175.5:8001'
 export const $request = (requestName,params,headerType=0)=>{
 	let reqObj = requestObj[requestName];
 	let token = uni.getStorageSync('token');
@@ -12,11 +12,11 @@ export const $request = (requestName,params,headerType=0)=>{
 		'scene':'',
 		'associated_id':'',
 	}
-	if(params.invite_code&&params.type&&params.associated_id){
-		shareInfo.invitation_code = params.invite_code;
-		shareInfo.scene = params.type;
-		shareInfo.associated_id = params.id;
-	}
+	// if(params.invite_code&&params.type&&params.associated_id){
+	// 	shareInfo.invitation_code = params.invite_code;
+	// 	shareInfo.scene = params.type;
+	// 	shareInfo.associated_id = params.id;
+	// }
 	let headerObj = [
 		{
 			"Content-Type":"application/json",
@@ -38,7 +38,7 @@ export const $request = (requestName,params,headerType=0)=>{
 		}
 	]
 	
-	let reqUrl = reqObj?.otherGet?`${url}${reqObj?.url}/${params}`:`${url}${reqObj?.url}`
+	let reqUrl = reqObj?.otherGet?`${url}${reqObj?.url}${params}`:`${url}${reqObj?.url}`
 	let data = reqObj?.otherGet?{}:params;
 	if(params.invite_code&&params.type&&params.associated_id){
 		data = {id:params.id}
@@ -51,20 +51,20 @@ export const $request = (requestName,params,headerType=0)=>{
 		    header: headerObj[headerType],
 		    success: (res) => {
 				console.log(res,'=====================')
-				if(res.data.code==403){
-					uni.hideLoading()
-					uni.clearStorageSync();
-					uni.showToast({
-						icon:'none',
-						title:res.data.message
-					})
-					setTimeout(()=>{
-						uni.reLaunch({
-							url:'/pages/login/index'
-						})
-					},1000)
-					return
-				}
+				// if(res.data.code==403){
+				// 	uni.hideLoading()
+				// 	uni.clearStorageSync();
+				// 	uni.showToast({
+				// 		icon:'none',
+				// 		title:res.data.message
+				// 	})
+				// 	setTimeout(()=>{
+				// 		uni.reLaunch({
+				// 			url:'/pages/login/index'
+				// 		})
+				// 	},1000)
+				// 	return
+				// }
 		        resolve(res)
 		    },
 			fail: (err) => {

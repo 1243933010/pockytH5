@@ -13,20 +13,20 @@
 		</view>
 		<view class="form">
 			<view class="input">
-				<input type="text" :placeholder="$t('app.name12')" />
+				<input type="text" v-model="requestInfo.email" :placeholder="$t('app.name12')" />
 			</view>
 			<view class="input">
-				<input type="text" :placeholder="$t('app.name13')" />
+				<input type="text" v-model="requestInfo.password"  :placeholder="$t('app.name13')" />
 			</view>
 			<view class="forget">
 				<text>{{$t("app.name14")}}</text>
 			</view>
-			<view class="btn">
+			<view class="btn" @click="loginHandle">
 				<view class="">
 					<text>{{$t("app.name15")}}</text>
 				</view>
 			</view>
-			<view class="create">
+			<view class="create" @click="goUrl('/pages/login/register')">
 				<text>{{$t("app.name16")}}</text>
 			</view>
 		</view>
@@ -34,11 +34,54 @@
 </template>
 
 <script>
+	import {
+		$request,
+		filesUrl
+	} from "@/utils/request.js";
 	export default {
 		data() {
 			return {
-				
+				requestInfo:{
+					email:"",
+					password:""
+				}
 			};
+		},
+		methods:{
+			goUrl(url){
+				uni.navigateTo({
+					url
+				})
+			},
+			loginHandle() {
+				// this.formData.captcha = this.captchaData.captcha;
+				$request("login", this.requestInfo).then(async res => {
+					console.log(res)
+					let {
+						data,
+						code,
+						msg
+					} = res.data;
+			
+			
+					if (code !== 200) {
+						// 登录失败
+						uni.showToast({
+							title: res.data.msg,
+							icon: "none",
+						});
+						return;
+					}
+					let {
+						token,
+						userinfo
+					} = data;
+					uni.setStorageSync("token", `Bearer ${token}`); // 存储token
+					uni.setStorageSync("userinfo", userinfo); // 存储token
+			
+
+				});
+			},
 		}
 	}
 </script>

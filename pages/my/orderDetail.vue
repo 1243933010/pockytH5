@@ -11,31 +11,31 @@
 			<view class="order-price">$2.00</view>
 			<view class="order-gift-card-number-box">
 				<view class="left">
-					<view class="tit">礼品卡号码</view>
+					<view class="tit">{{$t("app.name41")}}</view>
 					<view class="number">XH62RXL8Q76MNP63</view>
 				</view>
-				<view class="right">复制</view>
+				<view class="right">{{$t("app.name42")}}</view>
 			</view>
-			<view class="anti-fraud">防诈提醒</view>
+			<view class="anti-fraud" @click="openDialog">{{$t("app.name43")}}</view>
 			<view class="list">
 				<view class="item">
-					<view class="label">实付金额</view>
+					<view class="label">{{$t("app.name44")}}</view>
 					<view class="info">$2.00</view>
 				</view>
 				<view class="item">
-					<view class="label">交易状态</view>
+					<view class="label">{{$t("app.name45")}}</view>
 					<view class="info">success</view>
 				</view>
 				<view class="item">
-					<view class="label">订单编号</view>
+					<view class="label">{{$t("app.name46")}}</view>
 					<view class="info">2IIN8UYMF5KLG3</view>
 				</view>
 				<view class="item">
-					<view class="label">购买时间</view>
+					<view class="label">{{$t("app.name44")}}</view>
 					<view class="info">2024-07-04 09:22:33</view>
 				</view>
 			</view>
-			<view class="agin-btn">再次购买</view>
+			<view class="agin-btn">{{$t("app.name48")}}</view>
 			<view class="faq-box">
 				<view class="faq-tit">FAQ about App Store & iTunes US</view>
 				<view class="collapse-box">
@@ -59,6 +59,18 @@
 				<view class="a-link">shopsupports@pockyt.io</view>
 			</view>
 		</view>
+		<uni-popup ref="successPopup" type="bottom" style="width: 100%;">
+			<view class="popup-container popup-container1">
+				<view class="form">
+					<view class="price">
+						<view class="title">
+							<text>{{$t("api.message")}}</text>
+						</view>
+					</view>
+		
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -119,6 +131,9 @@ export default {
 	methods: {
 		goPage: (url) => {
 			uni.navigateTo({ url });
+		},
+		openDialog(){
+			this.$refs.successPopup.open();
 		}
 	}
 };
@@ -126,6 +141,18 @@ export default {
 
 <style lang="less" scoped>
 @import '../../static/less/variable.less';
+.popup-container{
+	background-color: white;
+	border-top-right-radius: 30rpx;
+	border-top-left-radius: 30rpx;
+	box-sizing: border-box;
+	padding: 30rpx;
+	min-height: 800rpx;
+	overflow-y: auto;
+	.form{
+		
+	}
+}
 
 .page-con {
 	background-color: #fff;

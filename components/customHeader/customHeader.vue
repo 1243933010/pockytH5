@@ -72,6 +72,12 @@ export default {
 	  this.$emit('listenLocale')
     },
     openPop() {
+		let token = uni.getStorageSync('token');
+		if(!token){
+			uni.reLaunch({
+				url:"/pages/login/login"
+			})
+		}
       // this.$refs.popup.open("center");
     },
     closePop() {
