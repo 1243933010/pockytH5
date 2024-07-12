@@ -15,6 +15,10 @@
 <style lang="less">
 @import "@/static/less/variable.less";
 
+* {
+	box-sizing: border-box;
+}
+
 uni-page-body {
 	height: 100%;
 	
