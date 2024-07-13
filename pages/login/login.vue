@@ -81,7 +81,7 @@
 						token,
 						userinfo
 					} = data;
-					uni.setStorageSync("token", `Bearer ${token}`); // 存储token
+					uni.setStorageSync("token", `${token}`); // 存储token
 					uni.setStorageSync("userinfo", userinfo); // 存储token
 					uni.reLaunch({
 						url:'/pages/index/index'

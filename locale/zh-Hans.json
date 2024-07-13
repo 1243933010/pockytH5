@@ -63,6 +63,10 @@
 	"app.name57": "验证码",
 	"app.name58": "忘记密码?",
 	"app.name59": "重设密码",
+	"app.name60": "选择支付方式",
+	"app.name61": "折扣价",
+	"app.name62": "价格不能为空",
+	"app.name63": "支付",
 	
 	"login.get-code": "重新发送",
 	"locale.auto": "系统",
@@ -84,9 +88,9 @@
 	"app.yue2": "查看",
 	"app.yue3": "联系我们",
 	"app.yue4": "全部",
-	"app.yue5": "订单完成",
-	"app.yue6": "订单失败",
-	"app.yue7": "处理中",
+	"app.yue5": "待支付",
+	"app.yue6": "已完成",
+	"app.yue7": "已取消",
 	"app.yue8": "暂无订单",
 	"app.yue9": "您可以在主页挑选你最喜欢的礼品卡"
 }

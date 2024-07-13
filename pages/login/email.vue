@@ -120,7 +120,7 @@
 					title: data.data.msg,
 				});
 				if (data.data.code == 200) {
-					uni.setStorageSync("token", `Bearer ${data.data.data.token}`);
+					uni.setStorageSync("token", `${data.data.data.token}`);
 					uni.setStorageSync("userinfo", data.data.data.userinfo); // 存储token
 					uni.reLaunch({
 						url: "/pages/index/index",

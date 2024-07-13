@@ -3,18 +3,18 @@
 		<!-- <hx-navbar :config="config" style="position: absolute; top: 0; width: 100vw;" /> -->
 		<customHeader />
 		<view class="page-container">
-			<view class="amount-num">$20</view>
-			<view class="discount-num">折扣价 $19.8</view>
+			<view class="amount-num">${{onLoadInfo.total_price}}</view>
+			<!-- <view class="discount-num">{{$t("app.name61")}} $19.8</view> -->
 			<view class="pay-way">
-				<view class="tit">选择支付方式</view>
+				<view class="tit">{{$t("app.name60")}}</view>
 				<view class="way-list">
-					<view class="way-item" v-for="way in wayList" :key="way.id">
+					<view class="way-item" v-for="(way,index) in payList" :key="index">
 						<view class="left">
 							<view class="icon pic">
-								<image :src="way.img" mode="widthFix"></image>
+								<!-- <image :src="way.img" mode="widthFix"></image> -->
 							</view>
 							<view class="text">
-								<view class="way-tit">{{ way.tit }}</view>
+								<view class="way-tit">{{ way.coin_name }}</view>
 								<view class="way-desc" v-if="way.desc">
 									<text class="red" v-if="way.id === 2">
 										$0.00
@@ -24,7 +24,7 @@
 								</view>
 							</view>
 						</view>
-						<view class="check-radius" :class="{ checked: checkedWay === way.id }" @click="checkedWay = way.id">
+						<view class="check-radius" :class="{ checked: coin_id === way.id }" @click="changeIndex(way)">
 							<view class="pic">
 								<image src="../../static/check.svg" mode="widthFix"></image>
 							</view>
@@ -32,50 +32,68 @@
 					</view>
 				</view>
 			</view>
-			<view class="recharge-btn">支付</view>
+			<view class="recharge-btn" @click="handleSubmit">{{$t("app.name63")}}</view>
 		</view>
 	</view>
 </template>
 
 <script>
 import customHeader from '@/components/customHeader/customHeader.vue';
+import {
+		$request
+	} from '@/utils/request.js'
 export default {
 	components: {
 		customHeader
 	},
 	data() {
 		return {
-			wayList: [
-				{
-					id: 0,
-					img: '../../static/zhifubao.svg',
-					tit: '支付宝'
-				},
-				{
-					id: 1,
-					img: '../../static/unionpay.svg',
-					tit: '中国银联',
-					desc: '请使用本人银行卡付款'
-				},
-				{
-					id: 2,
-					img: '../../static/balance.svg',
-					tit: '余额支付',
-					desc: 'true'
-				},
-				{
-					id: 3,
-					img: '../../static/wechat.svg',
-					tit: '微信支付'
-				}
-			],
-			checkedWay: 0
+			payList:[],
+			onLoadInfo:{},
+			coin_id:"",
 		};
 	},
+	onLoad(e){
+		console.log(e)
+		this.onLoadInfo = e;
+		this.getType();
+	},
 	methods: {
+		async getType(){
+			let res = await $request('payInfo',{})
+			// console.log(res)
+			if(res.data.code==200){
+				this.payList = res.data.data;
+				this.coin_id = res.data.data[0].id
+			}
+		},
 		goPage: (url) => {
-			console.log(url);
+			// console.log(url);
 			uni.navigateTo({ url });
+		},
+		changeIndex(way){
+			this.coin_id = way.id
+		},
+		async handleSubmit(){
+			let obj = {
+				goods_id:this.onLoadInfo.goods_id,
+				total_price:this.onLoadInfo.total_price,
+				coin_id:this.coin_id,
+				}
+			let res = await $request('orderCreate',obj)
+			// console.log(res)
+			uni.showToast({
+				icon:'none',
+				title:res.data.msg
+			})
+			if(res.data.code==200){
+				setTimeout(()=>{
+					uni.reLaunch({
+						url:"/pages/my/order"
+					})
+				},1000)
+				// this.payList = res.data.data;
+			}
 		}
 	}
 };

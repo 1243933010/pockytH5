@@ -14,18 +14,18 @@
 				</view>
 			</view>
 			<view class="tab-list">
-				<view class="tab-item" v-for="tab in tabLit" :key="tab.val" :class="{ active: checkedTab === tab.val }" @click="tabHandle(tab)">{{ tab.text }}</view>
+				<view class="tab-item" v-for="tab in tabLit" :key="tab.val" :class="{ active: checkedTab == tab.val }" @click="tabHandle(tab)">{{ tab.text }}</view>
 			</view>
 			<scroll-view :scroll-y="true" class="tab-pane" @scroll="handleScroll">
 				<view class="order-list" v-if="orderList.length">
-					<view class="order-item" @click="goPage(`/pages/my/orderDetail`)" v-for="order in orderList">
-						<view class="tag">订单完成</view>
+					<view class="order-item" @click="goPage(`/pages/my/orderDetail`)" v-for="(item,index) in orderList">
+						<view class="tag">{{item.order_status}}</view>
 						<view class="left">
-							<view class="tit">App Store & iTunes US</view>
-							<view class="time">04/07/2024 09:22:33</view>
+							<view class="tit">{{item.goods_name}}</view>
+							<view class="time">{{item.created_at}}</view>
 						</view>
 						<view class="right">
-							<view class="price">$2.00</view>
+							<view class="price">${{item.total_price}}</view>
 							<view class="pic">
 								<image src="../../static/arrow_right.svg" mode="widthFix"></image>
 							</view>
@@ -41,6 +41,9 @@
 <script>
 import customHeader from '@/components/customHeader/customHeader.vue';
 import Empty from '@/components/empty.vue';
+import {
+		$request
+	} from '@/utils/request.js'
 export default {
 	components: {
 		customHeader,
@@ -48,9 +51,13 @@ export default {
 	},
 	data() {
 		return {
-			
-			checkedTab: 1,
-			orderList: [{id: 1}],
+			requestInfo:{
+				per_page:20,
+				current_page:1,
+				order_status:""
+			},
+			checkedTab: 'all',
+			orderList: [],
 			isBottomReached: false,
 		};
 	},
@@ -58,33 +65,70 @@ export default {
 		tabLit(){
 			return [
 				{
-					val: 1,
+					val: 'all',
 					text: this.$t("app.yue4")
 				},
 				{
-					val: 2,
+					val: "0",
 					text:  this.$t("app.yue5")
 				},
 				{
-					val: 3,
+					val: '1',
 					text:  this.$t("app.yue6")
 				},
 				{
-					val: 4,
+					val: "-1",
 					text:  this.$t("app.yue7")
 				}
 			]
 		}
 	},
-	onLoad() {},
+	onLoad() {
+		this.getList();
+	},
+	onReachBottom(){
+		this.requestInfo.current_page++;
+		this.getList();
+	},
 	methods: {
+		 timestampToDateTime(timestamp) {
+		    // 创建一个新的Date对象
+		    const date = new Date(timestamp);
+		
+		    // 获取年、月、日、时、分、秒
+		    const year = date.getFullYear();
+		    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，所以要加1，并补零
+		    const day = date.getDate().toString().padStart(2, '0'); // 补零
+		    const hours = date.getHours().toString().padStart(2, '0'); // 补零
+		    const minutes = date.getMinutes().toString().padStart(2, '0'); // 补零
+		    const seconds = date.getSeconds().toString().padStart(2, '0'); // 补零
+		
+		    // 格式化年月日时分秒
+		    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+		},
+		async getList(){
+			let res = await $request("orderList",{...this.requestInfo})
+			if(res.data.code==200){
+				res.data.data.data.forEach((val)=>{
+					this.tabLit.forEach((item)=>{
+						if(val.order_status==item.val){
+							val.order_status = item.text;
+						}
+					})
+					val.created_at = this.timestampToDateTime(val.created_at*1000)
+				})
+				this.orderList.push(...res.data.data.data)
+			}
+		},
 		goPage(url) {
 			console.log(url);
 			uni.navigateTo({ url });
 		},
 		tabHandle(tab) {
 			this.checkedTab = tab.val;
-			getOrderList()
+			this.requestInfo.order_status = tab.val=='all'?'':tab.val;
+			this.orderList = [];
+			this.getList()
 		},
 		getOrderList() {
 		    // 这里是加载更多数据的逻辑
@@ -94,21 +138,21 @@ export default {
 		    this.isBottomReached = false;
 		},
 		handleScroll(e) {
-		    // 获取滚动位置和总滚动高度
-		    const scrollTop = e.detail.scrollTop;
-		    const scrollHeight = e.detail.scrollHeight;
-		    // 假设你有一个方法来获取screenHeight，这通常是窗口的高度或者scroll-view的可见高度
-		    const screenHeight = uni.getSystemInfoSync().windowHeight; // 或者使用其他方式获取
+		  //   // 获取滚动位置和总滚动高度
+		  //   const scrollTop = e.detail.scrollTop;
+		  //   const scrollHeight = e.detail.scrollHeight;
+		  //   // 假设你有一个方法来获取screenHeight，这通常是窗口的高度或者scroll-view的可见高度
+		  //   const screenHeight = uni.getSystemInfoSync().windowHeight; // 或者使用其他方式获取
 				
-		    // 判断是否接近底部（这里用了10作为阈值，你可以根据需要调整）
-		    if (scrollTop + screenHeight >= scrollHeight - 10) {
-		        if (!this.isBottomReached) {
-		            this.isBottomReached = true;
-		            this.getOrderList(); // 加载更多数据
-		        }
-		    } else {
-		        this.isBottomReached = false;
-		    }
+		  //   // 判断是否接近底部（这里用了10作为阈值，你可以根据需要调整）
+		  //   if (scrollTop + screenHeight >= scrollHeight - 10) {
+		  //       if (!this.isBottomReached) {
+		  //           this.isBottomReached = true;
+		  //           this.getOrderList(); // 加载更多数据
+		  //       }
+		  //   } else {
+		  //       this.isBottomReached = false;
+		  //   }
 		},
 	}
 };

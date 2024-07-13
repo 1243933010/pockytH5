@@ -18,13 +18,16 @@
 				<view class="title">
 					<text>{{goodsInfo.goods_name}}</text>
 				</view>
-				<view class="form">
+				<view class="form" v-if="goodsInfo.max!==goodsInfo.min">
 					<view class="form-title">
 						<text>{{$t("app.name18")}}</text>
 					</view>
 					<view class="input" @click="open">
 						<text>{{pleaderPrice}}</text>
 					</view>
+				</view>
+				<view class="price" style="color:#41AF74;font-weight: 600;font-size: 35rpx;margin: 20rpx 0;" v-if="goodsInfo.max===goodsInfo.min">
+					<text>{{$t("app.name61")}}${{goodsInfo.max}}</text>
 				</view>
 			</view>
 			<view class="other">
@@ -133,8 +136,32 @@
 			},
 			async payConfirm(){
 				if(this.checkBoxValue.length==0){
+					return false
+				}
+				
+				let info = {
+					total_price:'',
+					goods_id:this.goodsInfo.id
+				};
+				if(this.goodsInfo.max==this.goodsInfo.min){
+					info.total_price = this.goodsInfo.max
+				}else if(this.goodsInfo.max!==this.goodsInfo.min){
+					info.total_price = this.price;
+					
+				}
+				
+				
+				if(!info.total_price){
+					uni.showToast({
+						icon:'none',
+						title:this.$t("app.name62")
+					})
 					return
 				}
+				
+				uni.navigateTo({
+					url:`./pay?total_price=${info.total_price}&goods_id=${info.goods_id}`
+				})
 			}
 		}
 	}

@@ -20,7 +20,8 @@ export const $request = (requestName,params,headerType=0)=>{
 	let headerObj = [
 		{
 			"Content-Type":"application/json",
-			"Authorization":token?`${token}`:'',
+			"Authorization":token?`Bearer ${token}`:'',
+			"token":token?`${token}`:'',
 			"Accept":"application/json",
 			"Accept-Language":languageObj[language],
 			'Invitation-Code':shareInfo.invitation_code,
@@ -29,7 +30,8 @@ export const $request = (requestName,params,headerType=0)=>{
 		},
 		{
 			"Content-Type": "application/x-www-form-urlencoded",
-			"Authorization":token?`${token}`:'',
+			"Authorization":token?`Bearer ${token}`:'',
+			"token":token?`${token}`:'',
 			"Accept":"application/json",
 			"Accept-Language":languageObj[language],
 			'Invitation-Code':shareInfo.invitation_code,

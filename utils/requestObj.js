@@ -47,5 +47,37 @@ let requestObj = {
 		type: 'GET',
 		otherGet:true
 	},
+	orderCreate: {
+		name: "下单接口",
+		url: '/api/order/create',
+		type: 'POST'
+	},
+	orderCancal: {
+		name: "取消订单",
+		url: '/api/order/cancal',
+		type: 'POST'
+	},
+	payInfo: {
+		name: "获取订单支付信息",
+		url: '/api/order/payInfo',
+		type: 'GET',
+		// otherGet:true
+	},
+	payInfo: {
+		name: "支持的支付类型",
+		url: '/api/order/payType',
+		type: 'GET',
+		// otherGet:true
+	},
+	orderList: {
+		name: "订单列表",
+		url: '/api/order/list',
+		type: 'POST'
+	},
+	recharge: {
+		name: "创建充值订单",
+		url: '/api/pay/recharge',
+		type: 'POST'
+	},
 }
 export default requestObj;
