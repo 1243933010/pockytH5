@@ -44,8 +44,8 @@
 			return {
 				passwordType:true,
 				requestInfo:{
-					email:"",
-					password:""
+					email:"1243933010@qq.com",
+					password:"ChongShao1@"
 				}
 			};
 		},

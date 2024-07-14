@@ -6,11 +6,8 @@
 			<view class="uni-margin-wrap">
 				<swiper class="swiper" circular :indicator-dots="true" :autoplay="true" :interval="2000"
 					:duration="500">
-					<swiper-item>
-						<image src="../../static/head_bg.8ba4822.png" mode="widthFix"></image>
-					</swiper-item>
-					<swiper-item>
-						<image src="../../static/head_bg.8ba4822.png" mode="aspectFill"></image>
+					<swiper-item v-for="(item,index) in bannerList" :key="index">
+						<image :src="item.img" mode="widthFix"></image>
 					</swiper-item>
 				</swiper>
 			</view>
@@ -65,7 +62,8 @@
 				},
 				scrollIndex: 0,
 				scroll:[],
-				list: []
+				list: [],
+				bannerList:[]
 			}
 		},
 		computed: {
@@ -99,9 +97,16 @@
 		},
 		onLoad() {
 			this.getClass()
+			this.getBanner();
 		},
 		
 		methods: {
+			async getBanner(){
+				let res = await $request('banner',{})
+				 if(res.data.code==200){
+					 this.bannerList = res.data.data;
+				 }
+			},
 			rightClick(){
 				uni.navigateTo({
 					url:'/pages/index/product'

@@ -120,5 +120,10 @@ let requestObj = {
 		url: '/api/home/clause',
 		type: 'GET',
 	},
+	banner: {
+		name: "banner",
+		url: '/api/home/banner',
+		type: 'GET',
+	},
 }
 export default requestObj;
