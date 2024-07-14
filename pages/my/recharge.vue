@@ -3,8 +3,9 @@
 		<!-- <hx-navbar :config="config" style="position: absolute; top: 0; width: 100vw;" /> -->
 		<customHeader />
 		<view class="page-container">
-			<view class="amount-num">${{onLoadInfo.total_price}}</view>
-			<!-- <view class="discount-num">{{$t("app.name61")}} $19.8</view> -->
+			<view class="amount-num">{{$t("app.name64")}}</view>
+			<view class="amount-num1" @click="$refs.keyboard.open(true)">${{onLoadInfo.total_price}}{{amount}}</view>
+			<!-- <view class="discount-num">{{$t("app.name64")}} $19.8</view> -->
 			<view class="pay-way">
 				<view class="tit">{{$t("app.name60")}}</view>
 				<view class="way-list">
@@ -34,6 +35,8 @@
 			</view>
 			<view class="recharge-btn" @click="handleSubmit">{{$t("app.name63")}}</view>
 		</view>
+		<master-keyboard ref="keyboard" keyboardtype="digit" :newCar="false" :defaultValue="title"
+			@keyboardClick="handleClick"></master-keyboard>
 	</view>
 </template>
 
@@ -48,6 +51,8 @@ export default {
 	},
 	data() {
 		return {
+			amount:'0.00',
+			title:'',
 			payList:[],
 			onLoadInfo:{},
 			coin_id:"",
@@ -59,6 +64,11 @@ export default {
 		this.getType();
 	},
 	methods: {
+		handleClick(e) {
+			console.log(e)
+			this.title = e.value;
+			this.amount = e.value //键盘输入值
+		},
 		async getType(){
 			let res = await $request('payInfo',{})
 			// console.log(res)
@@ -80,25 +90,27 @@ export default {
 			this.coin_id = way.id
 		},
 		async handleSubmit(){
-			let obj = {
-				goods_id:this.onLoadInfo.goods_id,
-				total_price:this.onLoadInfo.total_price,
-				coin_id:this.coin_id,
-				}
-			let res = await $request('orderCreate',obj)
-			// console.log(res)
-			uni.showToast({
-				icon:'none',
-				title:res.data.msg
+			uni.navigateTo({
+				url:`./rechargeAddress?amount=${this.amount*1}&coin_id=${this.coin_id}`
 			})
-			if(res.data.code==200){
-				setTimeout(()=>{
-					uni.reLaunch({
-						url:"/pages/my/order"
-					})
-				},1000)
-				// this.payList = res.data.data;
-			}
+			// let obj = {
+			// 	amount:this.amount*1,
+			// 	coin_id:this.coin_id,
+			// 	}
+			// let res = await $request('recharge',obj)
+			// // console.log(res)
+			// uni.showToast({
+			// 	icon:'none',
+			// 	title:res.data.msg
+			// })
+			// if(res.data.code==200){
+			// 	// setTimeout(()=>{
+			// 	// 	uni.reLaunch({
+			// 	// 		url:"/pages/my/order"
+			// 	// 	})
+			// 	// },1000)
+			// 	// this.payList = res.data.data;
+			// }
 		}
 	}
 };
@@ -116,9 +128,17 @@ export default {
 		.amount-num {
 			margin-top: 60rpx;
 			text-align: center;
+			font-size: 40rpx;
+			line-height: 1.3;
+			// font-weight: bold;
+		}
+		.amount-num1 {
+			margin-top: 20rpx;
+			text-align: center;
 			font-size: 80rpx;
 			line-height: 1.3;
 			font-weight: bold;
+			color: #969799;
 		}
 
 		.discount-num {

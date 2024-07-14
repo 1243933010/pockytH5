@@ -53,20 +53,20 @@ export const $request = (requestName,params,headerType=0)=>{
 		    header: headerObj[headerType],
 		    success: (res) => {
 				console.log(res,'=====================')
-				// if(res.data.code==403){
-				// 	uni.hideLoading()
-				// 	uni.clearStorageSync();
-				// 	uni.showToast({
-				// 		icon:'none',
-				// 		title:res.data.message
-				// 	})
-				// 	setTimeout(()=>{
-				// 		uni.reLaunch({
-				// 			url:'/pages/login/index'
-				// 		})
-				// 	},1000)
-				// 	return
-				// }
+				if(res.data.code==401){
+					uni.hideLoading()
+					uni.clearStorageSync();
+					uni.showToast({
+						icon:'none',
+						title:res.data.message
+					})
+					setTimeout(()=>{
+						uni.reLaunch({
+							url:'/pages/index/index'
+						})
+					},1000)
+					return
+				}
 		        resolve(res)
 		    },
 			fail: (err) => {

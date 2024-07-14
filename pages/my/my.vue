@@ -31,9 +31,9 @@
 				</view>
 				<view class="terms">
 					<text>{{$t("app.yue2")}}</text>
-					<text class="a-link"  @click="goUrl('/pages/index/xieyi')">《{{$t("app.name20")}}》</text>
+					<text class="a-link"  @click="goUrl('/pages/index/xieyi?type=1')">《{{$t("app.name20")}}》</text>
 					<text>{{$t("app.name21")}}</text>
-					<text class="a-link" @click="goUrl('/pages/index/xieyi')">《{{$t("app.name22")}}》</text>
+					<text class="a-link" @click="goUrl('/pages/index/xieyi?type=2')">《{{$t("app.name22")}}》</text>
 				</view>
 			</view>
 			<view class="contact-us terms">

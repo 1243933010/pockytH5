@@ -32,10 +32,35 @@
 		},
 		data() {
 			return {
-				richText:'121212121'
+				richText:'121212121',
+				homeClauseInfo:{},
+				type:''
 			};
 		},
+		onLoad(e){
+			// this.type = e.type;
+			this.type = '1';
+			this.getHomeClause();
+		},
 		methods:{
+			async getHomeClause(){
+				let res = await $request('homeClause',{})
+				// console.log(res)
+				
+				if(res.data.code==200){
+					this.homeClauseInfo = res.data.data;
+					if(this.type=='1'){
+						this.richText = res.data.data.clause
+					}else if(this.type=='2'){
+						this.richText = res.data.data.privacy
+					}
+					return
+				}
+				uni.showToast({
+					icon:'none',
+					title:res.data.msg
+				})
+			},
 			back(){
 				uni.navigateBack({
 					delta:1

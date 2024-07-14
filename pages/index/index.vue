@@ -121,7 +121,16 @@
 				// 		url:'./class'
 				// 	})
 				// }
-				this.getList(item.id)
+				
+				
+			// 	if(item.child.length==0){
+			// 		uni.navigateTo({
+			// 			url:`./detail?id=${item.id}`
+			// 		})
+			// 	}else{
+			// 	this.getList(item.id)
+			// }
+			this.getList(item.id)
 			
 			},
 			async getList(id) {

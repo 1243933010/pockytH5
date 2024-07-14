@@ -79,5 +79,41 @@ let requestObj = {
 		url: '/api/pay/recharge',
 		type: 'POST'
 	},
+	collectAdd: {
+		name: "添加收藏",
+		url: '/api/collect/add',
+		type: 'POST'
+	},
+	collectList: {
+		name: "收藏列表",
+		url: '/api/collect/list',
+		type: 'GET',
+		// otherGet:true
+	},
+	collectRemove: {
+		name: "移除收藏",
+		url: '/api/collect/remove',
+		type: 'POST'
+	},
+	homeHot: {
+		name: "首页最热",
+		url: '/api/home/hot',
+		type: 'GET',
+	},
+	homeDiscount: {
+		name: "首页打折扣",
+		url: '/api/home/discount',
+		type: 'GET',
+	},
+	homeMore: {
+		name: "首页更多",
+		url: '/api/home/more',
+		type: 'GET',
+	},
+	homeClause: {
+		name: "隐私条款",
+		url: '/api/home/clause',
+		type: 'GET',
+	},
 }
 export default requestObj;

@@ -67,6 +67,12 @@
 	"app.name61": "折扣价",
 	"app.name62": "价格不能为空",
 	"app.name63": "支付",
+	"app.name64": "输入充值金额",
+	"app.name65": "倒计时",
+	"app.name66": "支付方式",
+	"app.name67": "地址",
+	"app.name68": "地址链接",
+	"app.name69": "复制",
 	
 	"login.get-code": "重新发送",
 	"locale.auto": "系统",

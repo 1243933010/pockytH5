@@ -36,7 +36,7 @@
 						</label>
 					</checkbox-group>
 					<view class="text">
-						<text>{{$t("app.name19")}} <text class="text1" @click="goUrl('/pages/index/xieyi')">《{{$t("app.name20")}}》</text>{{$t("app.name21")}}  <text class="text1"  @click="goUrl('/pages/index/xieyi')">《{{$t("app.name22")}}》</text></text>
+						<text>{{$t("app.name19")}} <text class="text1" @click="goUrl('/pages/index/xieyi?type=1')">《{{$t("app.name20")}}》</text>{{$t("app.name21")}}  <text class="text1"  @click="goUrl('/pages/index/xieyi?type=2')">《{{$t("app.name22")}}》</text></text>
 					</view>
 				</view>
 			</view>

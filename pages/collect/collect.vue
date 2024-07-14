@@ -16,11 +16,11 @@
 		<view class="" style="height: 137rpx;"></view>
 		<view class="list">
 			<view class="box">
-				<view class="item" v-for="(item,index) in list" :key="index">
-					<image :src="item.img" mode="aspectFill"></image>
+				<view class="item" v-for="(item,index) in list" :key="index" @click="goDetail(item)">
+					<image :src="item.goods_img" mode="aspectFill"></image>
 					<view class="box1">
-						<view class="text"><text>{{item.name}}</text> </view>
-						<view class="status0">$1</view>
+						<view class="text"><text>{{item.goods_name}}</text> </view>
+						<view class="status0">${{item.max}}</view>
 						<view class="status">{{$t("app.name9")}}1%</view>
 					</view>
 				</view>
@@ -34,44 +34,30 @@
 	export default {
 		data() {
 			return {
-				list: [{
-						name: 'testsdsdsdsddddddddddddddddddd',
-						id: "",
-						img: '../../static/head_bg.8ba4822.png'
-					},
-					{
-						name: 'test',
-						id: "",
-						img: '../../static/head_bg.8ba4822.png'
-					},
-					{
-						name: 'test',
-						id: "",
-						img: '../../static/head_bg.8ba4822.png'
-					},
-					{
-						name: 'test',
-						id: "",
-						img: '../../static/head_bg.8ba4822.png'
-					},
-					{
-						name: 'test',
-						id: "",
-						img: '../../static/head_bg.8ba4822.png'
-					},
-				],
+				list: [],
 				reqInfo: {
 					page: 1
 				},
 			};
 		},
 		onReachBottom() {
-			this.reqInfo.page++
+			// this.reqInfo.page++
+			this.getList();
+		},
+		onLoad(){
 			this.getList();
 		},
 		methods: {
-			getList() {
-
+			goDetail(item){
+				uni.navigateTo({
+					url:`/pages/index/detail?id=${item.id}`
+				})
+			},
+			async getList() {
+				let res = await $request('collectList',{})
+				if(res.data.code==200){
+					this.list = res.data.data.data;
+				}
 			},
 		}
 	}

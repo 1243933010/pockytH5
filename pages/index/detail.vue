@@ -7,8 +7,9 @@
 					<image src="../../static/back.svg" mode="widthFix"></image>
 					<text>{{$t("app.name17")}}</text>
 				</view>
-				<view class="like">
-					<image src="../../static/like.svg" mode="widthFix"></image>
+				<view class="like" @click="likeClick">
+					<image v-if="goodsInfo.collect==0" src="../../static/like.svg" mode="widthFix"></image>
+					<image v-if="goodsInfo.collect==1" src="../../static/like_check.svg" mode="widthFix"></image>
 				</view>
 			</view>
 			<view class="goods">
@@ -26,7 +27,8 @@
 						<text>{{pleaderPrice}}</text>
 					</view>
 				</view>
-				<view class="price" style="color:#41AF74;font-weight: 600;font-size: 35rpx;margin: 20rpx 0;" v-if="goodsInfo.max===goodsInfo.min">
+				<view class="price" style="color:#41AF74;font-weight: 600;font-size: 35rpx;margin: 20rpx 0;"
+					v-if="goodsInfo.max===goodsInfo.min">
 					<text>{{$t("app.name61")}}${{goodsInfo.max}}</text>
 				</view>
 			</view>
@@ -38,7 +40,13 @@
 						</label>
 					</checkbox-group>
 					<view class="text">
-						<text>{{$t("app.name19")}} <text class="text1">《{{$t("app.name20")}}》</text>{{$t("app.name21")}}  <text class="text1">《{{$t("app.name22")}}》</text></text>
+						<text>{{$t("app.name19")}}
+							<text class="text1"
+								@click="goUrl('/pages/index/xieyi?type=1')">《{{$t("app.name20")}}》</text>
+							{{$t("app.name21")}}
+							<text class="text1"
+								@click="goUrl('/pages/index/xieyi?type=2')">《{{$t("app.name22")}}》</text>
+						</text>
 					</view>
 				</view>
 				<view class="warn">
@@ -46,7 +54,7 @@
 					<text>{{$t("app.name23")}}</text>
 				</view>
 			</view>
-			
+
 			<view class="rich">
 				<view class="title">
 					<text>Powered by</text>
@@ -72,7 +80,7 @@
 		<view @click="payConfirm" class="pay-btn" :class="checkBoxValue.length>0?'disabled':''">
 			<text>{{$t("app.name26")}}</text>
 		</view>
-		<master-keyboard ref="keyboard" keyboardtype="digit" :randomNumber="true" :newCar="false" :defaultValue="title"
+		<master-keyboard ref="keyboard" keyboardtype="digit" :newCar="false" :defaultValue="title"
 			@keyboardClick="handleClick"></master-keyboard>
 	</view>
 </template>
@@ -85,17 +93,18 @@
 	export default {
 		components: {
 			customHeader
-			
+
 		},
 		data() {
 			return {
 				goodsInfo: {
-					min:'0',
-					max:'1'
+					min: '0',
+					max: '1'
 				},
 				price: '',
 				title: '',
-				checkBoxValue:['cb']
+				checkBoxValue: ['cb'],
+				homeClauseInfo: {}
 			};
 		},
 		computed: {
@@ -109,14 +118,50 @@
 		},
 		onLoad(e) {
 			this.getDetail(e.id)
+
 		},
 		methods: {
-			back(){
+
+			async likeClick() {
+				console.log(this.goodsInfo)
+				if (this.goodsInfo.collect == 0) {
+					let res = await $request('collectAdd', {
+						goods_id: this.goodsInfo.id
+					})
+					// console.log(res)
+					uni.showToast({
+						icon: 'none',
+						title: res.data.msg
+					})
+					if (res.data.code == 200) {
+						// this.goodsInfo = res.data.data;
+						this.getDetail(this.goodsInfo.id)
+
+						return
+					}
+				} else if (this.goodsInfo.collect == 1) {
+					let res = await $request('collectRemove', {
+						goods_id: this.goodsInfo.id
+					})
+					// console.log(res)
+					uni.showToast({
+						icon: 'none',
+						title: res.data.msg
+					})
+					if (res.data.code == 200) {
+						// this.goodsInfo = res.data.data;
+						this.getDetail(this.goodsInfo.id)
+
+						return
+					}
+				}
+			},
+			back() {
 				uni.navigateBack({
-					delta:1
+					delta: 1
 				})
 			},
-			change(e){
+			change(e) {
 				this.checkBoxValue = e.detail.value;
 			},
 			open() {
@@ -127,40 +172,45 @@
 				this.title = e.value;
 				this.price = e.value //键盘输入值
 			},
-			async getDetail(id){
-				let res = await $request('goodsClassDetail',`/${id}`)
+			async getDetail(id) {
+				let res = await $request('goodsClassDetail', `/${id}`)
 				// console.log(res)
-				if(res.data.code==200){
+				if (res.data.code == 200) {
 					this.goodsInfo = res.data.data;
 				}
 			},
-			async payConfirm(){
-				if(this.checkBoxValue.length==0){
+			goUrl(url) {
+				uni.navigateTo({
+					url
+				})
+			},
+			async payConfirm() {
+				if (this.checkBoxValue.length == 0) {
 					return false
 				}
-				
+
 				let info = {
-					total_price:'',
-					goods_id:this.goodsInfo.id
+					total_price: '',
+					goods_id: this.goodsInfo.id
 				};
-				if(this.goodsInfo.max==this.goodsInfo.min){
+				if (this.goodsInfo.max == this.goodsInfo.min) {
 					info.total_price = this.goodsInfo.max
-				}else if(this.goodsInfo.max!==this.goodsInfo.min){
+				} else if (this.goodsInfo.max !== this.goodsInfo.min) {
 					info.total_price = this.price;
-					
+
 				}
-				
-				
-				if(!info.total_price){
+
+
+				if (!info.total_price) {
 					uni.showToast({
-						icon:'none',
-						title:this.$t("app.name62")
+						icon: 'none',
+						title: this.$t("app.name62")
 					})
 					return
 				}
-				
+
 				uni.navigateTo({
-					url:`./pay?total_price=${info.total_price}&goods_id=${info.goods_id}`
+					url: `./pay?total_price=${info.total_price}&goods_id=${info.goods_id}`
 				})
 			}
 		}
@@ -168,20 +218,24 @@
 </script>
 
 <style lang="less" scoped>
-	/deep/ .uni-checkbox-input-checked{
+	/deep/ .uni-checkbox-input-checked {
 		background-color: rgb(27, 171, 162);
 		border: none;
 	}
-	/deep/ .uni-checkbox-input{
+
+	/deep/ .uni-checkbox-input {
 		box-sizing: border-box;
 		border-color: #969799 !important;
 	}
-	/deep/ .uni-checkbox-input:hover{
+
+	/deep/ .uni-checkbox-input:hover {
 		border-color: #969799 !important;
 	}
-	/deep/ .uni-checkbox-input.uni-checkbox-input-checked:before{
+
+	/deep/ .uni-checkbox-input.uni-checkbox-input-checked:before {
 		color: white;
 	}
+
 	.page-home {
 		// margin: 0 auto;
 		margin-top: -15rpx;
@@ -253,6 +307,7 @@
 				display: flex;
 				flex-direction: column;
 				margin-bottom: 60rpx;
+
 				.form-title {
 					font-size: 28rpx;
 					margin-bottom: 15rpx;
@@ -269,55 +324,62 @@
 				}
 			}
 		}
-		.other{
+
+		.other {
 			width: 95%;
 			margin: 0 auto;
 			border-top: 1px solid #DCDFE6;
 			border-bottom: 1px solid #DCDFE6;
 			box-sizing: border-box;
 			padding: 40rpx 0;
+
 			// display: flex;
 			// flex-direction: row;
 			// align-items: center;
-			uni-checkbox-group{
+			uni-checkbox-group {
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				padding-top: 5rpx;
 				font-size: 26rpx;
 			}
-			.xieyi{
+
+			.xieyi {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
 				color: #777777;
 				font-size: 26rpx;
 				margin-bottom: 30rpx;
-				.text1{
+
+				.text1 {
 					color: #41AF74;
 				}
 			}
-			.warn{
+
+			.warn {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
 				font-size: 26rpx;
 				font-weight: 600;
 				color: #555555;
-				image{
+
+				image {
 					width: 35rpx;
 					height: 35rpx;
 					margin-right: 10rpx;
 				}
 			}
 		}
-		
-		.rich{
+
+		.rich {
 			width: 95%;
 			margin: 0 auto;
 			padding-top: 40rpx;
 			padding-bottom: 40rpx;
-			.title{
+
+			.title {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
@@ -325,18 +387,21 @@
 				color: #777777;
 				// font-weight: 600;
 				font-size: 42rpx;
-				image{
+
+				image {
 					width: 180rpx;
 				}
 			}
-			.text1{
+
+			.text1 {
 				display: inline-block;
 				// flex-direction: column;
 				width: 100%;
 				text-align: left;
 				padding-left: 15rpx;
 				margin-bottom: 15rpx;
-				.title{
+
+				.title {
 					font-size: 30rpx;
 					display: inline-block;
 					width: 100%;
@@ -345,19 +410,23 @@
 					font-weight: 600;
 				}
 			}
-			.default{
+
+			.default {
 				border-left: 8rpx solid #41AF74;
 			}
-			.text2{
+
+			.text2 {
 				color: #777777;
 				font-size: 27rpx;
 			}
 		}
-		.rich1{
+
+		.rich1 {
 			padding-bottom: 180rpx;
 		}
 	}
-	.pay-btn{
+
+	.pay-btn {
 		position: fixed;
 		bottom: 0;
 		left: 0;
@@ -372,7 +441,8 @@
 		box-sizing: border-box;
 		padding: 40rpx 0;
 	}
-	.disabled{
+
+	.disabled {
 		background-color: #41AF74;
 		color: white;
 	}
