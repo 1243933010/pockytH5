@@ -1,6 +1,12 @@
 <template>
 	<view class="page-home">
 		<customHeader />
+		<view class="page-header">
+			<view class="back" @click="back">
+				<image src="../../static/back.svg" mode="widthFix"></image>
+				<text>{{$t("app.name17")}}</text>
+			</view>
+		</view>
 		<view class="content1">
 			<view class="faq-box">
 				<!-- <view class="faq-tit">FAQ about App Store & iTunes US</view> -->
@@ -77,12 +83,52 @@
 					}
 				]
 			};
+		},
+		methods:{
+			back(){
+				uni.navigateBack({delta:1})
+			},
 		}
 	}
 </script>
 
 <style lang="less" scoped>
 	@import '../../static/less/variable.less';
+	.page-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding-top: 40rpx;
+			width: 95%;
+			margin: 0 auto;
+			background-color: #F4F6F6;
+			margin-bottom: 25rpx;
+			.back {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				font-size: 28rpx;
+				color: #41AF74;
+		
+				image {
+					width: 32rpx;
+				}
+			}
+		
+			.like {
+				border: 1px solid #C4C4C4;
+				border-radius: 50%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 76rpx;
+				height: 76rpx;
+		
+				image {
+					width: 44rpx;
+				}
+			}
+		}
 	page{
 		background-color: #F4F6F6;
 		.content1{

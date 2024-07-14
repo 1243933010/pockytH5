@@ -41,6 +41,11 @@ let requestObj = {
 		type: 'GET',
 		otherGet:true
 	},
+	goodsList1: {
+		name: "商品class列表",
+		url: '/api/goods/goodsList',
+		type: 'GET',
+	},
 	goodsClassDetail: {
 		name: "商品class",
 		url: '/api/goods/detail',

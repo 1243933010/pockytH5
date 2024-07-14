@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<!-- <hx-navbar :config="config" style="position: absolute; top: 0; width: 100vw;" /> -->
-		<customHeader />
+		<customHeader :rightBool="true" @rightClick="rightClick" />
 		<view class="page-home">
 			<view class="uni-margin-wrap">
 				<swiper class="swiper" circular :indicator-dots="true" :autoplay="true" :interval="2000"
@@ -102,6 +102,11 @@
 		},
 		
 		methods: {
+			rightClick(){
+				uni.navigateTo({
+					url:'/pages/index/product'
+				})
+			},
 			async getClass(){
 				let res = await $request('goodsClass','/0')
 				 if(res.data.code==200){

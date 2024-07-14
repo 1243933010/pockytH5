@@ -120,7 +120,7 @@
 		background-color: #f5f5f5;
 
 		.content {
-			.time{
+			.time {
 				width: 100%;
 				padding: 15rpx 30rpx;
 				margin: 20rpx 0;
@@ -130,6 +130,7 @@
 				font-weight: 600;
 				color: darkgray;
 			}
+
 			.form {
 				display: flex;
 				flex-direction: column;
@@ -168,8 +169,12 @@
 					align-items: center;
 					background: #f5f5f5;
 
-					.text {
+					text {
 						font-size: 26rpx;
+						width: 400rpx;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
 					}
 
 					.btn {

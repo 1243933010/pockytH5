@@ -17,7 +17,7 @@
 							<image src="../../static/arrow_right.svg" mode="widthFix"></image>
 						</view>
 					</view>
-					<view class="item">
+					<view class="item" @click="goPage(`/pages/my/faq`)">
 						<view class="left">
 							<view class="pic">
 								<image src="../../static/qa.svg" mode="widthFix"></image>
