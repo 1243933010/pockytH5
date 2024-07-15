@@ -14,15 +14,31 @@
 					<!-- <view class="header-text">
           <text>{{ headerText }}</text>
         </view> -->
-					<view class="" v-if="rightBool"></view>
 					<view class="" v-if="rightBool">
-						<view class="search" @click="rightClick">
+						<view class="search-both" @click="rightClick">
+							<view class="search">
+								<view class="search-icon">
+									<view class="pic">
+										<image src="../../static/search.svg" mode="widthFix"></image>
+									</view>
+								</view>
+							</view>
+						</view>
+					</view>
+					<view class="" v-if="rightBool">
+						<!-- <view class="search" @click="rightClick">
 							<view class="search-icon">
 								<view class="pic">
 									<image src="../../static/search.svg" mode="widthFix"></image>
 								</view>
 							</view>
-						</view>
+						</view> -->
+						<picker cancel-text="取消1" confirm-text="确定1" @change="bindPickerChange" :value="index" :range="array">
+						  <view class="header-select">
+						    <image class="header-select-icon" :src="imgSrc" mode="widthFix"></image>
+						    <image class="header-select-select" src="../../static/img/select_icon.png" mode="widthFix"></image>
+						  </view>
+						</picker>
 					</view>
 					<!-- <picker cancel-text="取消1" confirm-text="确定1" @change="bindPickerChange" :value="index"
 						:range="array">
@@ -130,7 +146,22 @@
 
 <style lang="less" scoped>
 	@import "../../static/less/variable.less";
-
+	.search-both{
+		background-color: #F5F5F5;
+		width: 350rpx;
+		border-radius: 15rpx;
+		display: flex;
+		flex-direction: row-reverse;
+		.search {
+			width: 66rpx;
+			height: 66rpx;
+			.search-icon {
+				background-color: #F4FFF8;
+				
+			}
+			// background-color: red;
+		}
+	}
 	.search {
 		width: 80%;
 		border-radius: 1.333333vw;
