@@ -56,26 +56,26 @@
 			</view>
 
 			<view class="rich">
-				<view class="title">
+				<!-- <view class="title">
 					<text>Powered by</text>
 					<image src="../../static/logo3.svg" mode="widthFix"></image>
-				</view>
-				<view class="text1 default">
+				</view> -->
+				<!-- <view class="text1 default">
 					<text class="title">{{$t("app.name24")}}</text>
-				</view>
+				</view> -->
 				<view class="text2">
 					<!-- <text>test</text> -->
 					<rich-text :nodes="goodsInfo.goods_detail"></rich-text>
 				</view>
 			</view>
-			<view class="rich rich1">
+			<!-- <view class="rich rich1">
 				<view class="text1 default">
 					<text class="title">{{$t("app.name25")}}</text>
 				</view>
 				<view class="text2">
 					<text>test</text>
 				</view>
-			</view>
+			</view> -->
 		</view>
 		<view @click="payConfirm" class="pay-btn" :class="checkBoxValue.length>0?'disabled':''">
 			<text>{{$t("app.name26")}}</text>

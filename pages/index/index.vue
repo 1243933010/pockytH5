@@ -295,7 +295,7 @@
 						font-size: 28rpx;
 
 						image {
-							width: 82rpx;
+							width: 62rpx;
 							margin-right: 15rpx;
 						}
 					}
@@ -353,7 +353,7 @@
 
 					image {
 						width: 100%;
-						height: 150rpx;
+						height: 206rpx;
 						border-radius: 15rpx;
 					}
 				}
