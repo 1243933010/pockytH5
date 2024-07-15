@@ -11,7 +11,7 @@
 			<view class="list">
 				<view class="box">
 					<view class="item" v-for="(item,index) in list" :key="index" @click="clickDetail(item)">
-						<image :src="item.goods_img" mode="aspectFill"></image>
+						<image :src="imgUlr+item.goods_img" mode="aspectFill"></image>
 						<view class="box1">
 							<text class="text">{{item.goods_name}}</text>
 							<view class="status">{{$t("app.name9")}}1%</view>
@@ -26,7 +26,7 @@
 <script>
 	import customHeader from "@/components/customHeader/customHeader.vue";
 	import {
-		$request
+		$request,filesUrl
 	} from '@/utils/request.js'
 	export default {
 		components: {
@@ -36,6 +36,11 @@
 			return {
 				list:[]
 			};
+		},
+		computed:{
+			imgUlr(){
+				return filesUrl
+			},
 		},
 		onLoad(e){
 			// let list = uni.getStorageSync('classList')

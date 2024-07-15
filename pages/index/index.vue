@@ -7,7 +7,7 @@
 				<swiper class="swiper" circular :indicator-dots="true" :autoplay="true" :interval="2000"
 					:duration="500">
 					<swiper-item v-for="(item,index) in bannerList" :key="index">
-						<image :src="item.img" mode="widthFix"></image>
+						<image :src="imgUlr+item.img" mode="widthFix"></image>
 					</swiper-item>
 				</swiper>
 			</view>
@@ -27,7 +27,7 @@
 					<view class="scroll-view-item_H uni-bg-red" :class="scrollIndex==index?'active':''"
 						v-for="(item,index) in scroll" :key="index" @click="scrollTab(item,index)">
 						<view class="box">
-							<image :src="item.class_img" mode="widthFix"></image>
+							<image :src="imgUlr+item.class_img" mode="widthFix"></image>
 							<text>{{item.class_name}}</text>
 						</view>
 					</view>
@@ -36,7 +36,7 @@
 			<view class="list">
 				<view class="box">
 					<view class="item" v-for="(item,index) in list" :key="index" @click="clickDetail(item)">
-						<image :src="item.class_img" mode="aspectFill"></image>
+						<image :src="imgUlr+item.class_img" mode="aspectFill"></image>
 						<view class="box1">
 							<text class="text">{{item.class_name}}</text>
 							<view class="status">{{$t("app.name9")}}1%</view>
@@ -50,7 +50,7 @@
 
 <script>
 	import customHeader from "@/components/customHeader/customHeader.vue";
-	import {$request} from '@/utils/request.js'
+	import {$request,filesUrl} from '@/utils/request.js'
 	export default {
 		components: {
 			customHeader,
@@ -67,6 +67,9 @@
 			}
 		},
 		computed: {
+			imgUlr(){
+				return filesUrl
+			},
 			tipList() {
 				return [{
 						name: this.$t("app.tip1"),

@@ -1,5 +1,5 @@
 import requestObj from '@/utils/requestObj.js'
-export let filesUrl = 'https://maojian886.oss-ap-northeast-1.aliyuncs.com/';
+export let filesUrl = 'http://8.210.175.5:8001/';
 export let url = 'http://8.210.175.5:8001'
 export const $request = (requestName,params,headerType=0)=>{
 	let reqObj = requestObj[requestName];

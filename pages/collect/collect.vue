@@ -17,7 +17,7 @@
 		<view class="list">
 			<view class="box">
 				<view class="item" v-for="(item,index) in list" :key="index" @click="goDetail(item)">
-					<image :src="item.goods_img" mode="aspectFill"></image>
+					<image :src="imgUlr+item.goods_img" mode="aspectFill"></image>
 					<view class="box1">
 						<view class="text"><text>{{item.goods_name}}</text> </view>
 						<view class="status0">${{item.max}}</view>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-	import {$request} from '@/utils/request.js'
+	import {$request,filesUrl} from '@/utils/request.js'
 	export default {
 		data() {
 			return {
@@ -43,6 +43,11 @@
 		onReachBottom() {
 			// this.reqInfo.page++
 			this.getList();
+		},
+		computed:{
+			imgUlr(){
+				return filesUrl
+			},
 		},
 		onLoad(){
 			this.getList();

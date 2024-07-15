@@ -14,7 +14,7 @@
 			</view>
 			<view class="goods">
 				<view class="img">
-					<image :src="goodsInfo.goods_img" mode="widthFix"></image>
+					<image :src="imgUlr+goodsInfo.goods_img" mode="widthFix"></image>
 				</view>
 				<view class="title">
 					<text>{{goodsInfo.goods_name}}</text>
@@ -88,7 +88,7 @@
 <script>
 	import customHeader from "@/components/customHeader/customHeader.vue";
 	import {
-		$request
+		$request,filesUrl
 	} from '@/utils/request.js'
 	export default {
 		components: {
@@ -108,6 +108,9 @@
 			};
 		},
 		computed: {
+			imgUlr(){
+				return filesUrl
+			},
 			pleaderPrice() {
 				if (this.price) {
 					return this.price
