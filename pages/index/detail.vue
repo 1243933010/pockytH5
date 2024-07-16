@@ -65,7 +65,8 @@
 				</view> -->
 				<view class="text2">
 					<!-- <text>test</text> -->
-					<rich-text :nodes="goodsInfo.goods_detail"></rich-text>
+					<!-- <rich-text :nodes="goodsInfo.goods_detail"></rich-text> -->
+					  <u-parse :content="goodsInfo.goods_detail"  @navigate="navigate" ></u-parse>
 				</view>
 			</view>
 			<!-- <view class="rich rich1">
@@ -124,7 +125,10 @@
 
 		},
 		methods: {
-
+			navigate(e){
+				console.log(e);
+				location.href = e;
+			},
 			async likeClick() {
 				console.log(this.goodsInfo)
 				if (this.goodsInfo.collect == 0) {
@@ -380,7 +384,7 @@
 			width: 95%;
 			margin: 0 auto;
 			padding-top: 40rpx;
-			padding-bottom: 40rpx;
+			padding-bottom: 200rpx;
 
 			.title {
 				// display: flex;

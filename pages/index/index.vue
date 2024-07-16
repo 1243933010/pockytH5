@@ -50,7 +50,10 @@
 
 <script>
 	import customHeader from "@/components/customHeader/customHeader.vue";
-	import {$request,filesUrl} from '@/utils/request.js'
+	import {
+		$request,
+		filesUrl
+	} from '@/utils/request.js'
 	export default {
 		components: {
 			customHeader,
@@ -61,13 +64,13 @@
 					page: 1
 				},
 				scrollIndex: 0,
-				scroll:[],
+				scroll: [],
 				list: [],
-				bannerList:[]
+				bannerList: []
 			}
 		},
 		computed: {
-			imgUlr(){
+			imgUlr() {
 				return filesUrl
 			},
 			tipList() {
@@ -102,28 +105,28 @@
 			this.getClass()
 			this.getBanner();
 		},
-		
+
 		methods: {
-			async getBanner(){
-				let res = await $request('banner',{})
-				 if(res.data.code==200){
-					 this.bannerList = res.data.data;
-				 }
+			async getBanner() {
+				let res = await $request('banner', {})
+				if (res.data.code == 200) {
+					this.bannerList = res.data.data;
+				}
 			},
-			rightClick(){
+			rightClick() {
 				uni.navigateTo({
-					url:'/pages/index/product'
+					url: '/pages/index/product'
 				})
 			},
-			async getClass(){
-				let res = await $request('goodsClass','/0')
-				 if(res.data.code==200){
-					 this.scroll = res.data.data;
-					 this.list = this.scroll[0].child;
-				 }
+			async getClass() {
+				let res = await $request('goodsClass', '/0')
+				if (res.data.code == 200) {
+					this.scroll = res.data.data;
+					this.list = this.scroll[0].child;
+				}
 			},
-			clickDetail(item){
-			
+			clickDetail(item) {
+
 				// if(item.child.length==0){
 				// 	uni.navigateTo({
 				// 		url:`./detail?id=${item.id}`
@@ -134,35 +137,35 @@
 				// 		url:'./class'
 				// 	})
 				// }
-				
-				
-			// 	if(item.child.length==0){
-			// 		uni.navigateTo({
-			// 			url:`./detail?id=${item.id}`
-			// 		})
-			// 	}else{
-			// 	this.getList(item.id)
-			// }
-			this.getList(item.id)
-			
+
+
+				// 	if(item.child.length==0){
+				// 		uni.navigateTo({
+				// 			url:`./detail?id=${item.id}`
+				// 		})
+				// 	}else{
+				// 	this.getList(item.id)
+				// }
+				this.getList(item.id)
+
 			},
 			async getList(id) {
-				let res = await $request('goodsList',`/${id}`)
+				let res = await $request('goodsList', `/${id}`)
 				console.log(res)
-				 if(res.data.code==200){
-					 // uni.navigateTo({
-					 // 	url:`./class?id=${id}`
-					 // })
-					 if(res.data.data.data.length==1){
-						 uni.navigateTo({
-						 	url:`./detail?id=${res.data.data.data[0].id}`
-						 })
-					 }else if(res.data.data.data.length>1){
-						 	uni.navigateTo({
-						 		url:`./class?id=${id}`
-						 	})
-					 }
-				 }
+				if (res.data.code == 200) {
+					// uni.navigateTo({
+					// 	url:`./class?id=${id}`
+					// })
+					if (res.data.data.data.length == 1) {
+						uni.navigateTo({
+							url: `./detail?id=${res.data.data.data[0].id}`
+						})
+					} else if (res.data.data.data.length > 1) {
+						uni.navigateTo({
+							url: `./class?id=${id}`
+						})
+					}
+				}
 			},
 			scrollTab(item, index) {
 				this.scrollIndex = index;
@@ -243,7 +246,7 @@
 
 		.hr {
 			width: 100%;
-			height: 40rpx;
+			height: 25rpx;
 			margin-top: 25rpx;
 			background-color: #F4F6F6;
 		}
@@ -262,6 +265,7 @@
 			// background: red;
 			border-top-left-radius: 15rpx;
 			border-top-right-radius: 15rpx;
+			// overflow: hidden;
 
 			.scroll-view_H {
 				padding-top: 30rpx;
@@ -271,14 +275,28 @@
 				height: 150rpx;
 				// overflow: scroll;
 				white-space: nowrap;
+				overflow-x: hidden;
 
 				// display: flex;
 				// flex-direction: row;
 				// flex-wrap: nowrap;
 				// align-items: center;
 				// background-color: red;
+				
+				
+				/deep/.uni-scroll-view {
+					-ms-overflow-style: none;
+					scrollbar-width: none;
+					overflow-x: auto;
+				
+					&::-webkit-scrollbar {
+						display: none;
+					}
+				}
+
 				.scroll-view-item_H {
 					// width: 250rpx;
+					overflow-x: hidden;
 					margin: 0 15rpx;
 					background-color: #f5f5f5;
 					display: inline-block !important;
@@ -286,7 +304,7 @@
 					justify-content: center;
 					align-items: center;
 					border-radius: 25rpx;
-					padding: 10rpx 25rpx;
+					padding: 20rpx 25rpx;
 
 					.box {
 						display: flex;
@@ -295,7 +313,7 @@
 						font-size: 28rpx;
 
 						image {
-							width: 62rpx;
+							width: 52rpx;
 							margin-right: 15rpx;
 						}
 					}
@@ -308,6 +326,7 @@
 
 			// background-color: red;
 			padding-bottom: 120rpx;
+
 			.box {
 				width: 95%;
 				margin: 0 auto;
@@ -318,7 +337,7 @@
 
 				.item {
 					width: 48%;
-					height: 270rpx;
+					height: 320rpx;
 					display: flex;
 					flex-direction: column;
 					align-items: center;
@@ -330,6 +349,7 @@
 					.box1 {
 						display: flex;
 						flex-direction: column;
+						align-items: center;
 						.text {
 							width: 270rpx;
 							font-size: 35rpx;
@@ -339,11 +359,14 @@
 							overflow: hidden;
 							white-space: nowrap;
 							text-overflow: ellipsis;
+							margin-bottom: 5rpx;
 						}
-						.status0{
+
+						.status0 {
 							font-size: 26rpx;
 							line-height: 2;
 						}
+
 						.status {
 							color: #FF6F00;
 							font-size: 26rpx;
