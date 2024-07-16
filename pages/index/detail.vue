@@ -383,13 +383,13 @@
 			padding-bottom: 40rpx;
 
 			.title {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				justify-content: center;
-				color: #777777;
-				// font-weight: 600;
-				font-size: 42rpx;
+				// display: flex;
+				// flex-direction: row;
+				// align-items: center;
+				// justify-content: center;
+				// color: #777777;
+				// // font-weight: 600;
+				// font-size: 42rpx;
 
 				image {
 					width: 180rpx;
