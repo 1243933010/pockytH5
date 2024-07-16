@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<!-- <hx-navbar :config="config" style="position: absolute; top: 0; width: 100vw;" /> -->
-		<customHeader :rightBool="true" @rightClick="rightClick" />
+		<customHeader :rightBool="true" @rightClick="rightClick" @openPop="openPop" />
 		<view class="page-home">
 			<view class="uni-margin-wrap">
 				<swiper class="swiper" circular :indicator-dots="true" :autoplay="true" :interval="2000"
@@ -117,6 +117,10 @@
 				uni.navigateTo({
 					url: '/pages/index/product'
 				})
+			},
+			openPop(){
+				// let token = uni.getStorageSync('token');
+				// if()
 			},
 			async getClass() {
 				let res = await $request('goodsClass', '/0')

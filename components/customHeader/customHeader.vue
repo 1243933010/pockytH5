@@ -134,6 +134,10 @@
 					uni.reLaunch({
 						url: "/pages/login/login"
 					})
+				}else{
+					uni.navigateTo({
+						url:'/pages/my/userInfo'
+					})
 				}
 				// this.$refs.popup.open("center");
 			},

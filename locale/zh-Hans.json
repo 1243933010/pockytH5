@@ -73,6 +73,11 @@
 	"app.name67": "地址",
 	"app.name68": "地址链接",
 	"app.name69": "复制",
+	"app.name70": "账户余额",
+	"app.name71": "修改密码",
+	"app.name72": "退出登录",
+	"app.name73": "当前余额",
+	"app.name74": "充值",
 	
 	"login.get-code": "重新发送",
 	"locale.auto": "系统",
