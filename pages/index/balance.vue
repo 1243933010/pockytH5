@@ -48,7 +48,7 @@ export default {
 		},
 		async handleSubmit(){
 			uni.navigateTo({
-				url:'./pay'
+				url:'./pay?type=recharge'
 			})
 			
 		}

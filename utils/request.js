@@ -52,13 +52,12 @@ export const $request = (requestName,params,headerType=0)=>{
 		    data,
 		    header: headerObj[headerType],
 		    success: (res) => {
-				console.log(res,'=====================')
 				if(res.data.code==401){
 					uni.hideLoading()
 					uni.clearStorageSync();
 					uni.showToast({
 						icon:'none',
-						title:res.data.message
+						title:res.data.msg
 					})
 					setTimeout(()=>{
 						uni.reLaunch({
@@ -70,7 +69,6 @@ export const $request = (requestName,params,headerType=0)=>{
 		        resolve(res)
 		    },
 			fail: (err) => {
-				console.log(err,'-------------')
 				reject(err)
 			}
 		});

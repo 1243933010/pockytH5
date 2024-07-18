@@ -1,7 +1,6 @@
 <template>
 	<view class="page-con">
 		<!-- <hx-navbar :config="config" style="position: absolute; top: 0; width: 100vw;" /> -->
-		<customHeader />
 		<view class="page-header">
 			<view class="back" @click="back">
 				<image src="../../static/back.svg" mode="widthFix"></image>

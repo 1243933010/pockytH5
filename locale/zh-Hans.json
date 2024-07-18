@@ -103,5 +103,7 @@
 	"app.yue6": "已完成",
 	"app.yue7": "已取消",
 	"app.yue8": "暂无订单",
-	"app.yue9": "您可以在主页挑选你最喜欢的礼品卡"
+	"app.yue9": "您可以在主页挑选你最喜欢的礼品卡",
+	"app.goods_type": "Currency",
+	"app.goods_price": "Value"
 }

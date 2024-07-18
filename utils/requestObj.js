@@ -33,13 +33,17 @@ let requestObj = {
 		name: "商品class",
 		url: '/api/goods/goodsClass',
 		type: 'GET',
-		otherGet:true
 	},
 	goodsList: {
 		name: "商品class列表",
 		url: '/api/goods/goodsList',
 		type: 'GET',
 		otherGet:true
+	},
+	goodsSku: {
+		name: "商品Sku列表",
+		url: '/api/goods/goodsSku',
+		type: 'GET',
 	},
 	goodsList1: {
 		name: "商品class列表",
