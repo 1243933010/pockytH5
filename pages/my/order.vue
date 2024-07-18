@@ -23,8 +23,8 @@
 			</view>
 			<scroll-view :scroll-y="true" class="tab-pane" @scroll="handleScroll">
 				<view class="order-list" v-if="orderList.length">
-					<view class="order-item" @click="goPage(`/pages/my/orderDetail`)" v-for="(item,index) in orderList">
-						<view class="tag">{{item.order_status}}</view>
+					<view class="order-item" @click="goPage(item)" v-for="(item,index) in orderList">
+						<view class="tag">{{item.order_status1}}</view>
 						<view class="left">
 							<view class="tit">{{item.goods_name}}</view>
 							<view class="time">{{item.created_at}}</view>
@@ -120,7 +120,7 @@ export default {
 				res.data.data.data.forEach((val)=>{
 					this.tabLit.forEach((item)=>{
 						if(val.order_status==item.val){
-							val.order_status = item.text;
+							val.order_status1 = item.text;
 						}
 					})
 					val.created_at = this.timestampToDateTime(val.created_at*1000)
@@ -128,9 +128,15 @@ export default {
 				this.orderList.push(...res.data.data.data)
 			}
 		},
-		goPage(url) {
-			console.log(url);
-			uni.navigateTo({ url });
+		goPage(item) {
+			console.log(item);
+			if(item.order_status==0){
+				uni.navigateTo({
+					url: `/pages/my/rechargeAddress?order_id=${item.id}`
+				})
+				return
+			}
+			uni.navigateTo({ url:`/pages/my/orderDetail` });
 		},
 		tabHandle(tab) {
 			this.checkedTab = tab.val;
