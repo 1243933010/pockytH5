@@ -78,6 +78,8 @@
 	"app.name72": "退出登录",
 	"app.name73": "当前余额",
 	"app.name74": "充值",
+	"app.name75": "金额",
+	"app.name76": "充值金额需与上方金额完全一致，方可到账成功，注意小数点尾数金额",
 	
 	"login.get-code": "重新发送",
 	"locale.auto": "系统",

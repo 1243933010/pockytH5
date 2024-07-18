@@ -25,7 +25,7 @@
 					@click="tabHandle(tab)">{{ tab.text }}</view>
 			</view> -->
 			<scroll-view :scroll-y="true" @scroll="handleScroll">
-				<view class="product-list" v-if="orderList.length">
+				<!-- <view class="product-list" v-if="orderList.length">
 					<view class="product-item" @click="goPage(order)" v-for="order in orderList">
 						<view class="box">
 							<view class="pic">
@@ -34,7 +34,18 @@
 							<view class="product-info">
 								<view class="product-tit">{{order.goods_name}}</view>
 								<view class="product-price">${{order.min}}~{{order.max}}</view>
-								<view class="product-profit">{{$t("app.name9")}} 0.01%</view>
+								
+							</view>
+						</view>
+					</view>
+				</view> -->
+				<view class="list" v-if="orderList.length">
+					<view class="box">
+						<view class="item" v-for="(item,index) in orderList" :key="index" @click="goPage(item)">
+							<image :src="imgUlr+item.goods_img" mode="aspectFill"></image>
+							<view class="box1">
+								<text class="text">{{item.goods_name}}</text>
+								<view class="status">Up to <span style="font-size: 28rpx;padding: 0rpx 10rpx;">{{item.rate * 100}}%</span> off</view>
 							</view>
 						</view>
 					</view>
@@ -112,6 +123,68 @@
 
 <style lang="less" scoped>
 	@import '../../static/less/variable.less';
+	.list {
+		width: 100%;
+	
+		// background-color: red;
+		padding-bottom: 120rpx;
+	
+		.box {
+			width: 95%;
+			margin: 0 auto;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			flex-wrap: wrap;
+	
+			.item {
+				width: 48%;
+				height: 310rpx;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				border-radius: 15rpx;
+				box-shadow: 0px 10px 10px rgba(0, 0, 0, .2);
+				margin-right: 2%;
+				margin-bottom: 30rpx;
+	
+				.box1 {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+	
+					.text {
+						text-align: center;
+						width: 270rpx;
+						font-size: 4.266667vw;
+						line-height: 2;
+						display: block;
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+					}
+	
+					.status0 {
+						font-size: 26rpx;
+						line-height: 2;
+					}
+	
+					.status {
+						color: #41af74;
+						font-size: 22rpx;
+						font-weight: bold;
+						margin: 0 0 !important;
+					}
+				}
+	
+				image {
+					width: 100%;
+					height: 190rpx;
+					border-radius: 15rpx;
+				}
+			}
+		}
+	}
 .page-header {
 		display: flex;
 		justify-content: space-between;
@@ -173,11 +246,14 @@
 				padding: 24rpx;
 				.df();
 				flex-wrap: wrap;
-
 				.product-item {
-					padding: @space calc(@space / 2) 0;
+					// padding: @space calc(@space / 2) 0;
 					width: 50%;
-
+					height: 310rpx;
+					// border-radius: 15rpx;
+					// box-shadow: 0px 10px 10px rgba(0, 0, 0, .2);
+					// // margin-right: 2%;
+					margin-bottom: 30rpx;
 					.box {
 						box-shadow: rgba(0, 0, 0, 0.25) 2rpx 10rpx 16rpx 0;
 						border-radius: 16rpx;
@@ -189,9 +265,9 @@
 						}
 
 						.product-info {
-							padding: 32rpx;
+							// padding: 32rpx;
 							line-height: 48rpx;
-
+							text-align: center;
 							.product-tit {
 								font-size: 32rpx;
 								.vertical(1);
