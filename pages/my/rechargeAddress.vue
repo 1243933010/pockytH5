@@ -8,7 +8,7 @@
 			</view>
 			<view class="form">
 				<view class="title">
-					<text>{{$t("app.name66")}}</text>
+					<text>{{$t("app.name66")}}:</text>
 				</view>
 				<view class="input">
 					<text>{{payInfo.pay_chain}}</text>
@@ -16,22 +16,38 @@
 			</view>
 			<view class="form">
 				<view class="title">
-					<text>{{$t("app.name67")}}</text>
+					<text>{{$t("app.name75")}}:</text>
+				</view>
+				<view class="input">
+					<text>{{payInfo.total_price}}</text>
+				</view>
+			</view>
+			<view class="form">
+				<view class="title">
+					<text>{{$t("app.name67")}}:</text>
 				</view>
 				<view class="erweima">
 					<canvas id="qrcode" canvas-id="qrcode"></canvas>
 					<!-- <text>{{payInfo.pay_chain}}</text> -->
 				</view>
 			</view>
-			<view class="form">
+			<view class="form" style="margin-bottom: 40rpx;">
 				<view class="title">
-					<text>{{$t("app.name68")}}</text>
+					<text>{{$t("app.name68")}}:</text>
 				</view>
 				<view class="copy">
-					<text>{{payInfo.pay_address}}</text>
-					<view class="btn">
+					<text class="text">{{payInfo.pay_address}}</text>
+					<view class="btn" @click="copy(payInfo.pay_address)">
 						<text>{{$t("app.name69")}}</text>
 					</view>
+				</view>
+			</view>
+			<view class="form">
+				<view class="title">
+					<text>{{$t("api.message")}}:</text>
+				</view>
+				<view class="input" style="background: none;">
+					<text style="color: red;">{{$t("app.name76")}}</text>
 				</view>
 			</view>
 		</view>
@@ -53,7 +69,7 @@
 				amount: '',
 				order_id: "",
 				payInfo: {},
-				timeRemaining: 30 * 60, // 30分钟倒计时，单位是秒
+				timeRemaining: 0, // 30分钟倒计时，单位是秒
 				intervalId: null
 			};
 		},
@@ -70,15 +86,28 @@
 			// this.amount = e.amount;
 			this.order_id = e.order_id;
 			this.getOrderInfo();
-			this.startCountdown();
+			
 		},
 		methods: {
+			copy(str){
+				uni.setClipboardData({
+					data:str,
+					icon:'none'
+				})
+			},
 			async getOrderInfo(){
 				let res = await $request('payInfo1',{order_id:this.order_id})
 				console.log(res)
 				if(res.data.code==200){
 					this.payInfo = res.data.data;
 					this.handleSubmit()
+					// this.startCountdown();
+					let time = new Date().getTime();
+					console.log(res.data.data.timeout_at-time/1000)
+					if(res.data.data.timeout_at>(time/1000)){
+						this.timeRemaining =Math.floor((res.data.data.timeout_at-(time/1000)))
+						this.startCountdown();
+					}
 				}
 			},
 			startCountdown() {
@@ -117,7 +146,7 @@
 					// 设置二维码内容
 					qr.data = this.payInfo.pay_address;
 					// 设置二维码大小，必须与canvas设置的宽高一致
-					qr.size = 100;
+					qr.size = 150;
 					// 调用制作二维码方法
 					qr.make();
 					// 获取canvas上下文
@@ -156,6 +185,7 @@
 					box-sizing: border-box;
 					padding: 10rpx 5%;
 					margin-bottom: 15rpx;
+					font-weight: 600;
 
 				}
 
@@ -184,13 +214,19 @@
 					justify-content: space-between;
 					align-items: center;
 					background: #f5f5f5;
-
+					.text{
+						background: white;
+						box-sizing: border-box;
+						padding: 15rpx 50rpx 15rpx 5rpx;
+						border-radius: 15rpx;
+					}
 					text {
 						font-size: 26rpx;
-						width: 400rpx;
+						width: 500rpx;
 						white-space: nowrap;
 						overflow: hidden;
 						text-overflow: ellipsis;
+						
 					}
 
 					.btn {
