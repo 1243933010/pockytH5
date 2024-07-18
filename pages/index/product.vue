@@ -29,7 +29,7 @@
 					<view class="product-item" @click="goPage(order)" v-for="order in orderList">
 						<view class="box">
 							<view class="pic">
-								<image src="../../static/head_bg.8ba4822.png" mode="widthFix"></image>
+								<image :src="imgUlr+order.goods_img" mode="widthFix"></image>
 							</view>
 							<view class="product-info">
 								<view class="product-tit">{{order.goods_name}}</view>
@@ -49,7 +49,7 @@
 	import customHeader from '@/components/customHeader/customHeader.vue';
 	import Empty from '@/components/empty.vue';
 	import {
-		$request
+		$request,filesUrl
 	} from '@/utils/request.js'
 	export default {
 		components: {
@@ -63,7 +63,11 @@
 				isBottomReached: false
 			};
 		},
-		computed: {},
+		computed: {
+			imgUlr() {
+				return filesUrl
+			},
+		},
 		onLoad() {
 			this.getList()
 		},

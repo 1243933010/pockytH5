@@ -66,7 +66,7 @@ let requestObj = {
 		url: '/api/order/cancal',
 		type: 'POST'
 	},
-	payInfo: {
+	payInfo2: {
 		name: "获取订单支付信息",
 		url: '/api/order/payInfo',
 		type: 'GET',
@@ -127,6 +127,11 @@ let requestObj = {
 	banner: {
 		name: "banner",
 		url: '/api/home/banner',
+		type: 'GET',
+	},
+	payInfo1: {
+		name: "payInfo",
+		url: '/api/order/payInfo',
 		type: 'GET',
 	},
 }

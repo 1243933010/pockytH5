@@ -101,6 +101,7 @@
 					goods_id: this.onLoadInfo.goods_id,
 					total_price: this.onLoadInfo.total_price,
 					coin_id: this.coin_id,
+					sku_id:this.onLoadInfo.goods_sku_id
 				}
 				let res = await $request('orderCreate', obj)
 				// console.log(res)
@@ -109,9 +110,10 @@
 					title: res.data.msg
 				})
 				if (res.data.code == 200) {
+					console.log(res.data)
 					setTimeout(() => {
-						uni.reLaunch({
-							url: "/pages/my/order"
+						uni.redirectTo({
+							url: `/pages/my/rechargeAddress?order_id=${res.data.data.order_id}`
 						})
 					}, 1000)
 					// this.payList = res.data.data;

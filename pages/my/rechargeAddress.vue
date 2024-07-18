@@ -51,7 +51,7 @@
 		data() {
 			return {
 				amount: '',
-				coin_id: "",
+				order_id: "",
 				payInfo: {},
 				timeRemaining: 30 * 60, // 30分钟倒计时，单位是秒
 				intervalId: null
@@ -67,14 +67,31 @@
 		},
 		onLoad(e) {
 			console.log(e)
-			this.amount = e.amount;
-			this.coin_id = e.coin_id;
-			this.handleSubmit();
+			// this.amount = e.amount;
+			this.order_id = e.order_id;
+			this.getOrderInfo();
 			this.startCountdown();
 		},
 		methods: {
+			async getOrderInfo(){
+				let res = await $request('payInfo1',{order_id:this.order_id})
+				console.log(res)
+				if(res.data.code==200){
+					this.payInfo = res.data.data;
+					this.handleSubmit()
+				}
+			},
 			startCountdown() {
 				this.intervalId = setInterval(() => {
+					if(this.payInfo.pay_status==1){
+						uni.showToast({
+							icon:'none',title:'success'
+						})
+						clearInterval(this.intervalId);
+						uni.reLaunch({
+							url:'/pages/my/order'
+						})
+					}
 					if (this.timeRemaining > 0) {
 						this.timeRemaining--;
 					} else {
@@ -83,18 +100,18 @@
 				}, 1000);
 			},
 			async handleSubmit() {
-				let obj = {
-					amount: this.amount * 1,
-					coin_id: this.coin_id,
-				}
-				let res = await $request('recharge', obj)
-				// console.log(res)
-				uni.showToast({
-					icon: 'none',
-					title: res.data.msg
-				})
-				if (res.data.code == 200) {
-					this.payInfo = res.data.data;
+				// let obj = {
+				// 	amount: this.amount * 1,
+				// 	coin_id: this.coin_id,
+				// }
+				// let res = await $request('recharge', obj)
+				// // console.log(res)
+				// uni.showToast({
+				// 	icon: 'none',
+				// 	title: res.data.msg
+				// })
+				// if (res.data.code == 200) {
+					// this.payInfo = res.data.data;
 					// 获取uQRCode实例
 					var qr = new UQRCode();
 					// 设置二维码内容
@@ -109,7 +126,6 @@
 					qr.canvasContext = canvasContext;
 					// 调用绘制方法将二维码图案绘制到canvas上
 					qr.drawCanvas();
-				}
 			}
 		}
 	}
