@@ -24,8 +24,8 @@
 			<view class="hr"></view>
 			<view class="scroll1">
 				<scroll-view class="scroll-view_H" scroll-x="true" scroll-left="0">
-					<view class="scroll-view-item_H uni-bg-red" :class="scrollIndex==index?'active':''"
-						v-for="(item,index) in scroll" :key="index" @click="scrollTab(item,index)">
+					<view class="scroll-view-item_H uni-bg-red" :class="scrollIndex==item.id?'active':''"
+						v-for="(item,index) in classList" :key="index" @click="scrollTab(item.id)">
 						<view class="box">
 							<image :src="imgUlr+item.class_img" mode="widthFix"></image>
 							<text>{{item.class_name}}</text>
@@ -36,10 +36,10 @@
 			<view class="list">
 				<view class="box">
 					<view class="item" v-for="(item,index) in list" :key="index" @click="clickDetail(item)">
-						<image :src="imgUlr+item.class_img" mode="aspectFill"></image>
+						<image :src="imgUlr+item.goods_img" mode="aspectFill"></image>
 						<view class="box1">
-							<text class="text">{{item.class_name}}</text>
-							<view class="status">{{$t("app.name9")}}1%</view>
+							<text class="text">{{item.goods_name}}</text>
+							<view class="status">Up to <span style="font-size: 28rpx;padding: 0rpx 10rpx;">{{item.rate * 100}}%</span> off</view>
 						</view>
 					</view>
 				</view>
@@ -64,7 +64,7 @@
 					page: 1
 				},
 				scrollIndex: 0,
-				scroll: [],
+				classList: [],
 				list: [],
 				bannerList: []
 			}
@@ -99,11 +99,12 @@
 		},
 		onReachBottom() {
 			this.reqInfo.page++
-			this.getList();
+			this.getList(this.scrollIndex);
 		},
 		onLoad() {
 			this.getClass()
 			this.getBanner();
+			this.getList(0);
 		},
 
 		methods: {
@@ -118,64 +119,32 @@
 					url: '/pages/index/product'
 				})
 			},
-			openPop(){
+			openPop() {
 				// let token = uni.getStorageSync('token');
 				// if()
 			},
 			async getClass() {
-				let res = await $request('goodsClass', '/0')
+				let res = await $request('goodsClass', {})
 				if (res.data.code == 200) {
-					this.scroll = res.data.data;
-					this.list = this.scroll[0].child;
+					this.classList = res.data.data;
 				}
 			},
 			clickDetail(item) {
-
-				// if(item.child.length==0){
-				// 	uni.navigateTo({
-				// 		url:`./detail?id=${item.id}`
-				// 	})
-				// }else{
-				// 	uni.setStorageSync('classList',item.child)
-				// 	uni.navigateTo({
-				// 		url:'./class'
-				// 	})
-				// }
-
-
-				// 	if(item.child.length==0){
-				// 		uni.navigateTo({
-				// 			url:`./detail?id=${item.id}`
-				// 		})
-				// 	}else{
-				// 	this.getList(item.id)
-				// }
-				this.getList(item.id)
-
+				uni.navigateTo({
+					url: `./detail?id=${item.id}`
+				})
 			},
 			async getList(id) {
-				let res = await $request('goodsList', `/${id}`)
-				console.log(res)
-				if (res.data.code == 200) {
-					// uni.navigateTo({
-					// 	url:`./class?id=${id}`
-					// })
-					if (res.data.data.data.length == 1) {
-						uni.navigateTo({
-							url: `./detail?id=${res.data.data.data[0].id}`
-						})
-					} else if (res.data.data.data.length > 1) {
-						uni.navigateTo({
-							url: `./class?id=${id}`
-						})
-					}
-				}
+				uni.showLoading()
+				let res = await $request('goodsList', `/${id}?page=${this.reqInfo.page}`)
+				uni.hideLoading()
+				this.list = this.list.concat(res.data.data.data)
 			},
-			scrollTab(item, index) {
+			scrollTab(index) {
+				this.reqInfo.page = 1;
 				this.scrollIndex = index;
-				this.list = this.scroll[index].child;
-				// this.reqInfo.page = 1;
-				// this.getList();
+				this.list = [];
+				this.getList(index);
 			}
 		}
 	}
@@ -286,13 +255,13 @@
 				// flex-wrap: nowrap;
 				// align-items: center;
 				// background-color: red;
-				
-				
+
+
 				/deep/.uni-scroll-view {
 					-ms-overflow-style: none;
 					scrollbar-width: none;
 					overflow-x: auto;
-				
+
 					&::-webkit-scrollbar {
 						display: none;
 					}
@@ -341,7 +310,7 @@
 
 				.item {
 					width: 48%;
-					height: 320rpx;
+					height: 310rpx;
 					display: flex;
 					flex-direction: column;
 					align-items: center;
@@ -354,16 +323,16 @@
 						display: flex;
 						flex-direction: column;
 						align-items: center;
+
 						.text {
+							text-align: center;
 							width: 270rpx;
-							font-size: 35rpx;
-							font-weight: 600;
-							line-height: 1.5;
+							font-size: 4.266667vw;
+							line-height: 2;
 							display: block;
 							overflow: hidden;
 							white-space: nowrap;
 							text-overflow: ellipsis;
-							margin-bottom: 5rpx;
 						}
 
 						.status0 {
@@ -372,15 +341,16 @@
 						}
 
 						.status {
-							color: #FF6F00;
-							font-size: 26rpx;
+							color: #41af74;
+							font-size: 22rpx;
+							font-weight: bold;
 							margin: 0 0 !important;
 						}
 					}
 
 					image {
 						width: 100%;
-						height: 206rpx;
+						height: 190rpx;
 						border-radius: 15rpx;
 					}
 				}

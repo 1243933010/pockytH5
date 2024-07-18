@@ -1,6 +1,5 @@
 <template>
 	<view>
-		<customHeader />
 		<view class="page-home">
 			<view class="page-header">
 				<view class="back" @click="back">
@@ -17,19 +16,44 @@
 					<image :src="imgUlr+goodsInfo.goods_img" mode="widthFix"></image>
 				</view>
 				<view class="title">
-					<text>{{goodsInfo.goods_name}}</text>
+					<text style="font-size: 3.733333vw;">{{goodsInfo.goods_name}}</text>
 				</view>
-				<view class="form" v-if="goodsInfo.max!==goodsInfo.min">
-					<view class="form-title">
-						<text>{{$t("app.name18")}}</text>
+
+				<view class="price"
+					style="color:#41AF74;font-weight: 600;font-size: 35rpx;margin: 20rpx 0; display: flex; flex-direction: row; line-height: 42rpx; justify-content: space-between; width: 600rpx;">
+					<view style="font-size: 26rpx;width: 200rpx;text-align: right;"></view>
+					<view style="font-size: 42rpx; width: 200rpx; text-align: center;">${{goodsPrice}}</view>
+					<view
+						style="padding-left: 20rpx;color: #a8a8a8; font-size: 26rpx; width: 200rpx;text-decoration: line-through;">
+						${{originPrice}}</view>
+				</view>
+
+				<view class="sku">
+					<view class="goods_title">
+						{{$t("app.goods_type")}}
 					</view>
-					<view class="input" @click="open">
-						<text>{{pleaderPrice}}</text>
+					<view class="sku-option">
+						<view v-for="(item , index) in goodsSku.coin" class="sku-item"
+							:class="index == currencyIndex ? 'active' : ''" @click="change_currency(index)">
+							{{item.coin}}
+						</view>
 					</view>
 				</view>
-				<view class="price" style="color:#41AF74;font-weight: 600;font-size: 35rpx;margin: 20rpx 0;"
-					v-if="goodsInfo.max===goodsInfo.min">
-					<text>{{$t("app.name61")}}${{goodsInfo.max}}</text>
+
+				<view class="sku">
+					<view class="goods_title">
+						{{$t("app.goods_price")}}
+					</view>
+					<view class="sku-option">
+						<view v-for="(item , index) in goodsSku.sku" class="sku-name"
+							:class="index == valueIndex ? 'active' : ''" @click="changeValue(index)">
+							{{item.sku_name}}
+						</view>
+						<view class="sku-name" v-if="goodsSku.sku == false">
+							-
+						</view>
+					</view>
+
 				</view>
 			</view>
 			<view class="other">
@@ -56,27 +80,13 @@
 			</view>
 
 			<view class="rich">
-				<!-- <view class="title">
-					<text>Powered by</text>
-					<image src="../../static/logo3.svg" mode="widthFix"></image>
-				</view> -->
-				<!-- <view class="text1 default">
-					<text class="title">{{$t("app.name24")}}</text>
-				</view> -->
+				<view class="goods_title">
+					Content
+				</view>
 				<view class="text2">
-					<!-- <text>test</text> -->
-					<!-- <rich-text :nodes="goodsInfo.goods_detail"></rich-text> -->
-					  <u-parse :content="goodsInfo.goods_detail"  @navigate="navigate" ></u-parse>
+					<u-parse :content="goodsInfo.goods_detail" @navigate="navigate"></u-parse>
 				</view>
 			</view>
-			<!-- <view class="rich rich1">
-				<view class="text1 default">
-					<text class="title">{{$t("app.name25")}}</text>
-				</view>
-				<view class="text2">
-					<text>test</text>
-				</view>
-			</view> -->
 		</view>
 		<view @click="payConfirm" class="pay-btn" :class="checkBoxValue.length>0?'disabled':''">
 			<text>{{$t("app.name26")}}</text>
@@ -87,29 +97,32 @@
 </template>
 
 <script>
-	import customHeader from "@/components/customHeader/customHeader.vue";
+	// import customHeader from "@/components/customHeader/customHeader.vue";
 	import {
-		$request,filesUrl
+		$request,
+		filesUrl
 	} from '@/utils/request.js'
 	export default {
-		components: {
-			customHeader
+		// components: {
+		// 	customHeader
 
-		},
+		// },
 		data() {
 			return {
-				goodsInfo: {
-					min: '0',
-					max: '1'
-				},
+				goodsInfo: {},
 				price: '',
 				title: '',
 				checkBoxValue: ['cb'],
-				homeClauseInfo: {}
+				homeClauseInfo: {},
+				goodsSku: [],
+				goodsPrice: '',
+				originPrice: '',
+				currencyIndex: 0,
+				valueIndex: 0
 			};
 		},
 		computed: {
-			imgUlr(){
+			imgUlr() {
 				return filesUrl
 			},
 			pleaderPrice() {
@@ -121,11 +134,12 @@
 			}
 		},
 		onLoad(e) {
+			this.goodsInfo.id = e.id
 			this.getDetail(e.id)
-
+			this.getSku(e.id)
 		},
 		methods: {
-			navigate(e){
+			navigate(e) {
 				console.log(e);
 				location.href = e;
 			},
@@ -191,34 +205,45 @@
 					url
 				})
 			},
+			async getSku(id, coin = '') {
+				let data = {
+					goods_id: id
+				}
+				if (coin) {
+					data.coin = coin
+				}
+				let res = await $request('goodsSku', data);
+				this.goodsSku = res.data.data
+				this.goodsPrice = this.goodsSku.sku[this.valueIndex]?.price 
+				this.originPrice = this.goodsSku.sku[this.valueIndex]?.original_price
+				if(!this.goodsPrice){
+					this.goodsPrice = 0
+					this.originPrice = 0
+				}
+			},
 			async payConfirm() {
 				if (this.checkBoxValue.length == 0) {
 					return false
 				}
-
 				let info = {
-					total_price: '',
-					goods_id: this.goodsInfo.id
+					goods_sku_id: this.goodsSku.sku[this.valueIndex]?.id,
+					goods_id: this.goodsInfo.id,
+					total_price: this.goodsPrice
 				};
-				if (this.goodsInfo.max == this.goodsInfo.min) {
-					info.total_price = this.goodsInfo.max
-				} else if (this.goodsInfo.max !== this.goodsInfo.min) {
-					info.total_price = this.price;
-
+				if(!info.goods_sku_id){
+					return false;
 				}
-
-
-				if (!info.total_price) {
-					uni.showToast({
-						icon: 'none',
-						title: this.$t("app.name62")
-					})
-					return
-				}
-
 				uni.navigateTo({
-					url: `./pay?total_price=${info.total_price}&goods_id=${info.goods_id}`
+					url: `./pay?total_price=${info.total_price}&goods_id=${info.goods_id}&goods_sku_id=${info.goods_sku_id}`
 				})
+			},
+			change_currency(index) {
+				this.currencyIndex = index
+				this.getSku(this.goodsInfo.id, this.goodsSku.coin[index].coin)
+			},
+			changeValue(index) {
+				this.valueIndex = index
+				this.goodsPrice = this.goodsSku.sku[index].price
 			}
 		}
 	}
@@ -295,10 +320,11 @@
 			padding-top: 40rpx;
 
 			.img {
-				width: 500rpx;
+				width: 400rpx;
 				margin-bottom: 20rpx;
 
 				image {
+					border-radius: 15rpx;
 					width: 100%;
 				}
 			}
@@ -330,6 +356,65 @@
 					border-radius: 20rpx;
 				}
 			}
+
+			.sku {
+				width: 100%;
+				margin: 20rpx 10rpx;
+
+				.sku-option {
+					display: flex;
+					flex-direction: row;
+					flex-wrap: wrap;
+					margin-left: 60rpx;
+
+					.sku-item {
+						text-align: center;
+						width: 90rpx;
+						margin: 10rpx 0rpx;
+						margin-right: 16rpx;
+						padding: 5rpx 0rpx;
+						border-radius: 13rpx;
+						color: #adadad;
+						border: 1px solid #adadad;
+					}
+
+					.sku-name {
+						text-align: center;
+						margin: 10rpx 0rpx;
+						margin-right: 16rpx;
+						padding: 5rpx 15rpx;
+						border-radius: 13rpx;
+						color: #adadad;
+						border: 1px solid #adadad;
+					}
+
+					.active {
+						color: #41AF74;
+						border: 1px solid #41AF74;
+					}
+
+				}
+
+				.goods_title {
+					margin-left: 20rpx;
+					padding: 10rpx;
+					width: 100rpx;
+					font-weight: bold;
+					color: #41AF74;
+
+				}
+
+				.goods_title::before {
+					/* Font Awesome图标的Unicode字符 */
+					content: '1';
+					width: 4rpx;
+					height: 20rpx;
+					margin-right: 15rpx;
+					background-color: #41AF74;
+					border-radius: 5rpx;
+				}
+			}
+
 		}
 
 		.other {
@@ -383,7 +468,6 @@
 		.rich {
 			width: 95%;
 			margin: 0 auto;
-			padding-top: 40rpx;
 			padding-bottom: 200rpx;
 
 			.title {
@@ -398,6 +482,23 @@
 				image {
 					width: 180rpx;
 				}
+			}
+
+			.goods_title {
+				margin-left: 20rpx;
+				padding-top: 20rpx;
+				font-weight: bold;
+				color: #41AF74;
+			}
+
+			.goods_title::before {
+				/* Font Awesome图标的Unicode字符 */
+				content: '1';
+				width: 4rpx;
+				height: 20rpx;
+				margin-right: 15rpx;
+				background-color: #41AF74;
+				border-radius: 5rpx;
 			}
 
 			.text1 {
@@ -443,10 +544,10 @@
 		align-items: center;
 		background-color: #e0e0e0;
 		color: #9b9b9b;
-		font-size: 45rpx;
+		font-size: 36rpx;
 		font-weight: 600;
 		box-sizing: border-box;
-		padding: 40rpx 0;
+		padding: 26rpx 0;
 	}
 
 	.disabled {

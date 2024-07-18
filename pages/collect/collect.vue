@@ -170,7 +170,7 @@
 
 					image {
 						width: 100%;
-						height: 150rpx;
+						height: 207rpx;
 						border-radius: 15rpx;
 					}
 				}

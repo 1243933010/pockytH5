@@ -1,30 +1,27 @@
 <template>
 	<view class="page-con">
-		<!-- <hx-navbar :config="config" style="position: absolute; top: 0; width: 100vw;" /> -->
 		<customHeader />
+		<view class="back" @click="back"
+			style="display: flex; flex-direction: row; padding: 40rpx 20rpx;color: #41af74;align-items: center;">
+			<image src="../../static/back.svg" mode="widthFix" style="width: 30rpx;height: 30rpx;"></image>
+			<view>{{$t("app.name17")}}</view>
+		</view>
 		<view class="page-container">
+
 			<view class="amount-num">${{onLoadInfo.total_price}}</view>
-			<!-- <view class="discount-num">{{$t("app.name61")}} $19.8</view> -->
 			<view class="pay-way">
 				<view class="tit">{{$t("app.name60")}}</view>
 				<view class="way-list">
-					<view class="way-item" v-for="(way,index) in payList" :key="index">
+					<view class="way-item" v-for="(way,index) in payList" :key="index" @click="changeIndex(way)">
 						<view class="left">
 							<view class="icon pic">
-								<!-- <image :src="way.img" mode="widthFix"></image> -->
+								<image :src="imgUlr + way.coin_logo" mode="widthFix"></image>
 							</view>
 							<view class="text">
 								<view class="way-tit">{{ way.coin_name }}</view>
-								<view class="way-desc" v-if="way.desc">
-									<text class="red" v-if="way.id === 2">
-										$0.00
-										<text class="text-underline" @click="goPage('/pages/my/balance')">余额不足请充值</text>
-									</text>
-									<template v-else>{{ way.desc }}</template>
-								</view>
 							</view>
 						</view>
-						<view class="check-radius" :class="{ checked: coin_id === way.id }" @click="changeIndex(way)">
+						<view class="check-radius" :class="{ checked: coin_id === way.id }">
 							<view class="pic">
 								<image src="../../static/check.svg" mode="widthFix"></image>
 							</view>
@@ -38,180 +35,208 @@
 </template>
 
 <script>
-import customHeader from '@/components/customHeader/customHeader.vue';
-import {
-		$request
+	import customHeader from '@/components/customHeader/customHeader.vue';
+	import {
+		$request,
+		filesUrl
 	} from '@/utils/request.js'
-export default {
-	components: {
-		customHeader
-	},
-	data() {
-		return {
-			payList:[],
-			onLoadInfo:{},
-			coin_id:"",
-		};
-	},
-	onLoad(e){
-		console.log(e)
-		this.onLoadInfo = e;
-		this.getType();
-	},
-	methods: {
-		async getType(){
-			let res = await $request('payInfo',{})
-			// console.log(res)
-			if(res.data.code==200){
-				this.payList = res.data.data;
-				this.coin_id = res.data.data[0].id
-				return
-			}
-			uni.showToast({
-				icon:'none',
-				title:res.data.msg
-			})
+	export default {
+		components: {
+			customHeader
 		},
-		goPage: (url) => {
-			// console.log(url);
-			uni.navigateTo({ url });
+		computed: {
+			imgUlr() {
+				return filesUrl
+			},
 		},
-		changeIndex(way){
-			this.coin_id = way.id
+		data() {
+			return {
+				payList: [],
+				onLoadInfo: {},
+				coin_id: "",
+				userInfo: {},
+				recharge: false,
+				type: ''
+			};
 		},
-		async handleSubmit(){
-			let obj = {
-				goods_id:this.onLoadInfo.goods_id,
-				total_price:this.onLoadInfo.total_price,
-				coin_id:this.coin_id,
+		onLoad(e) {
+			console.log(e)
+			this.type = e?.type
+			this.onLoadInfo = e;
+			this.getType();
+			this.getUserInfo();
+		},
+		methods: {
+			async getUserInfo() {
+				let res = await $request('userInfo', {})
+				console.log(res, '---')
+				if (res.data.code == 200) {
+					this.userInfo = res.data.data;
 				}
-			let res = await $request('orderCreate',obj)
-			// console.log(res)
-			uni.showToast({
-				icon:'none',
-				title:res.data.msg
-			})
-			if(res.data.code==200){
-				setTimeout(()=>{
-					uni.reLaunch({
-						url:"/pages/my/order"
-					})
-				},1000)
-				// this.payList = res.data.data;
-			}
+			},
+			async getType() {
+				let res = await $request('payInfo', {})
+				// console.log(res)
+				if (res.data.code == 200) {
+					this.payList = res.data.data;
+					this.coin_id = res.data.data[0].id
+					return
+				}
+				uni.showToast({
+					icon: 'none',
+					title: res.data.msg
+				})
+			},
+			goPage: (url) => {
+				// console.log(url);
+				uni.navigateTo({
+					url
+				});
+			},
+			changeIndex(way) {
+				this.coin_id = way.id
+			},
+			async handleSubmit() {
+				let obj = {
+					goods_id: this.onLoadInfo.goods_id,
+					total_price: this.onLoadInfo.total_price,
+					coin_id: this.coin_id,
+				}
+				let res = await $request('orderCreate', obj)
+				// console.log(res)
+				uni.showToast({
+					icon: 'none',
+					title: res.data.msg
+				})
+				if (res.data.code == 200) {
+					setTimeout(() => {
+						uni.reLaunch({
+							url: "/pages/my/order"
+						})
+					}, 1000)
+					// this.payList = res.data.data;
+				}
+			},
+			back() {
+				uni.navigateBack({
+					delta: 1
+				})
+			},
 		}
-	}
-};
+	};
 </script>
 
 <style lang="less" scoped>
-@import '../../static/less/variable.less';
+	@import '../../static/less/variable.less';
 
-.page-con {
-	background-color: #f4f6f6;
+	.page-con {
+		background-color: #f4f6f6;
 
-	.page-container {
-		padding: 22rpx 50rpx;
+		.page-container {
+			padding: 0rpx 50rpx;
 
-		.amount-num {
-			margin-top: 60rpx;
-			text-align: center;
-			font-size: 80rpx;
-			line-height: 1.3;
-			font-weight: bold;
-		}
-
-		.discount-num {
-			margin-bottom: 20rpx;
-			color: #1baba2;
-			font-size: 40rpx;
-			text-align: center;
-			font-weight: bold;
-		}
-
-		.pay-way {
-			.tit {
-				padding: 24rpx;
-				color: #222;
-				font-size: 28rpx;
+			.amount-num {
+				
+				text-align: center;
+				font-size: 80rpx;
 				line-height: 1.3;
+				font-weight: bold;
+				color: #41af74;
 			}
 
-			.way-list {
-				border-radius: 16rpx;
-				background-color: #fff;
+			.discount-num {
+				margin-bottom: 20rpx;
+				color: #1baba2;
+				font-size: 36rpx;
+				text-align: center;
+				font-weight: bold;
+			}
 
-				.way-item {
-					padding: 20rpx 32rpx;
-					.df(center, space-between);
+			.pay-way {
+				.tit {
+					padding: 24rpx 0rpx;
+					color: #222;
+					font-size: 28rpx;
+					line-height: 1.2;
+					font-weight: bold;
+				}
 
-					.left {
-						flex-grow: 1;
-						.df(center);
+				.way-list {
+					border-radius: 16rpx;
+					background-color: #fff;
 
-						.icon {
-							margin-right: 20rpx;
-							border-radius: 50%;
-							width: 60rpx;
-							height: 60rpx;
-						}
+					.way-item {
+						padding: 20rpx 32rpx;
+						.df(center, space-between);
 
-						.text {
-							.way-tit {
-								font-size: 28rpx;
-								color: #333;
-								line-height: 1.3;
+						.left {
+							flex-grow: 1;
+							.df(center);
+
+							.icon {
+								margin-right: 20rpx;
+								border-radius: 50%;
+								width: 60rpx;
+								height: 60rpx;
 							}
 
-							.way-desc {
-								margin-top: 8rpx;
-								font-size: 24rpx;
-								color: #969799;
-								line-height: 1.3;
+							.text {
+								.way-tit {
+									font-size: 28rpx;
+									color: #333;
+									line-height: 1.3;
+								}
 
-								.red {
-									color: red;
+								.way-desc {
+									margin-top: 8rpx;
+									font-size: 24rpx;
+									color: #969799;
+									line-height: 1.3;
 
-									.text-underline {
-										text-decoration: underline;
+									.red {
+										color: #41af74;
+
+										.text-underline {
+											text-decoration: underline;
+											margin-left: 20rpx;
+										}
 									}
 								}
 							}
 						}
-					}
 
-					.check-radius {
-						border-radius: 50%;
-						border: 1px solid #c8c9cc;
-						width: 40rpx;
-						height: 40rpx;
-						flex-shrink: 0;
-						overflow: hidden;
-
-						.pic {
-							width: 100%;
-							opacity: 0;
-							background-color: transparent;
-							transition: background-color 0.35s ease-in-out, opacity 0.35s ease-in-out;
-						}
-
-						&.checked {
-							border-color: transparent;
+						.check-radius {
+							border-radius: 50%;
+							border: 1px solid #c8c9cc;
+							width: 40rpx;
+							height: 40rpx;
+							flex-shrink: 0;
+							overflow: hidden;
 
 							.pic {
-								opacity: 1;
-								background-color: #41af74;
+								width: 100%;
+								opacity: 0;
+								background-color: transparent;
+								transition: background-color 0.35s ease-in-out, opacity 0.35s ease-in-out;
+							}
+
+							&.checked {
+								border-color: transparent;
+
+								.pic {
+									opacity: 1;
+									background-color: #41af74;
+								}
 							}
 						}
 					}
 				}
 			}
-		}
-		
-		.recharge-btn {
-			margin-top: 40rpx;
-			.btn-box();
+
+			.recharge-btn {
+				margin-top: 40rpx;
+				.btn-box();
+			}
 		}
 	}
-}
 </style>
