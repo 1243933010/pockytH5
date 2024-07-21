@@ -10,7 +10,7 @@
 		<view class="page-container">
 			<view class="search-box">
 				<view class="search">
-					<input type="text" placeholder="search" />
+					<input type="text"/>
 					<view class="search-icon">
 						<view class="pic">
 							<image src="../../static/search.svg" mode="widthFix"></image>

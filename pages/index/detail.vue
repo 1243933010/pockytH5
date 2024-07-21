@@ -16,7 +16,7 @@
 					<image :src="imgUlr+goodsInfo.goods_img" mode="widthFix"></image>
 				</view>
 				<view class="title">
-					<text style="font-size: 3.733333vw;">{{goodsInfo.goods_name}}</text>
+					<text style="font-size: 34rpx;">{{goodsInfo.goods_name}}</text>
 				</view>
 
 				<view class="price"
@@ -244,6 +244,7 @@
 			changeValue(index) {
 				this.valueIndex = index
 				this.goodsPrice = this.goodsSku.sku[index].price
+				this.originPrice = this.goodsSku.sku[index].original_price
 			}
 		}
 	}

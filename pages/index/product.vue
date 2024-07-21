@@ -12,7 +12,7 @@
 			</view>
 			<view class="search-box">
 				<view class="search">
-					<input v-model="search" type="text" placeholder="search" />
+					<input v-model="search" type="text" />
 					<view class="search-icon">
 						<view class="pic" @click="getList">
 							<image src="../../static/search.svg" mode="widthFix"></image>
@@ -45,7 +45,7 @@
 							<image :src="imgUlr+item.goods_img" mode="aspectFill"></image>
 							<view class="box1">
 								<text class="text">{{item.goods_name}}</text>
-								<view class="status">Up to <span style="font-size: 28rpx;padding: 0rpx 10rpx;">{{item.rate * 100}}%</span> off</view>
+								<view class="status">Up to <span style="font-size: 28rpx;padding: 0rpx 10rpx;">{{(item.rate * 100).toFixed(0)}}%</span> off</view>
 							</view>
 						</view>
 					</view>
@@ -156,7 +156,7 @@
 					.text {
 						text-align: center;
 						width: 270rpx;
-						font-size: 4.266667vw;
+						font-size: 34rpx;
 						line-height: 2;
 						display: block;
 						overflow: hidden;

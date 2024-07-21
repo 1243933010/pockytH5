@@ -12,16 +12,15 @@
 				</swiper>
 			</view>
 
-			<view class="tip">
+			<!-- 			<view class="tip">
 				<view class="content">
 					<view class="item" v-for="(item,index) in tipList" :key="index">
 						<image :src="item.img" mode="widthFix"></image>
 						<text>{{item.name}}</text>
 					</view>
 				</view>
-			</view>
+			</view> -->
 
-			<view class="hr"></view>
 			<view class="scroll1">
 				<scroll-view class="scroll-view_H" scroll-x="true" scroll-left="0">
 					<view class="scroll-view-item_H uni-bg-red" :class="scrollIndex==item.id?'active':''"
@@ -39,7 +38,9 @@
 						<image :src="imgUlr+item.goods_img" mode="aspectFill"></image>
 						<view class="box1">
 							<text class="text">{{item.goods_name}}</text>
-							<view class="status">Up to <span style="font-size: 28rpx;padding: 0rpx 10rpx;">{{item.rate * 100}}%</span> off</view>
+							<view class="status">Up to <span
+									style="font-size: 28rpx;padding: 0rpx 10rpx;">{{(item.rate * 100).toFixed(0)}}%</span>
+								off</view>
 						</view>
 					</view>
 				</view>
@@ -136,7 +137,7 @@
 			},
 			async getList(id) {
 				uni.showLoading()
-				let res = await $request('goodsList', `/${id}?page=${this.reqInfo.page}`)
+				let res = await $request('goodsList', `/${id}?page=${this.reqInfo.page}&per_page=20`)
 				uni.hideLoading()
 				this.list = this.list.concat(res.data.data.data)
 			},
@@ -162,23 +163,18 @@
 	}
 
 	.page-home {
-		margin-top: -15rpx;
 		background-color: white;
-		border-top-right-radius: 15rpx;
-		border-top-left-radius: 15rpx;
 
 		.uni-margin-wrap {
 			width: 100%;
+			background-color: white;
 
 			.swiper {
-				width: 95%;
 				margin: 0 auto;
-				// border-radius: 15rpx;
-				padding-top: 15rpx;
+				background-color: white;
 
-				swiper-item {
-					border-radius: 15rpx;
-				}
+			
+				height: 310rpx;
 
 				image {
 					width: 100%;
@@ -191,36 +187,11 @@
 			// align-items: center;
 		}
 
-		.tip {
-			width: 100%;
-			padding-top: 25rpx;
 
-			.content {
-				width: 95%;
-				margin: 0 auto;
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-
-				.item {
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					color: #005C2F;
-					font-size: 26rpx;
-
-					image {
-						width: 32rpx;
-						margin-right: 10rpx;
-					}
-				}
-			}
-		}
 
 		.hr {
 			width: 100%;
 			height: 25rpx;
-			margin-top: 25rpx;
 			background-color: #F4F6F6;
 		}
 
@@ -327,7 +298,7 @@
 						.text {
 							text-align: center;
 							width: 270rpx;
-							font-size: 4.266667vw;
+							font-size: 32rpx;
 							line-height: 2;
 							display: block;
 							overflow: hidden;

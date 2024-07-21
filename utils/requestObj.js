@@ -134,5 +134,10 @@ let requestObj = {
 		url: '/api/order/payInfo',
 		type: 'GET',
 	},
+	faq: {
+		name: "faq",
+		url: '/api/faq/list',
+		type: 'GET',
+	},
 }
 export default requestObj;
