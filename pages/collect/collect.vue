@@ -2,7 +2,7 @@
 	<view class="page-home">
 		<view class="search-box">
 			<view class="search">
-				<input type="text" placeholder="search" />
+				<input type="text"/>
 				<view class="search-icon">
 					<view class="pic">
 						<image src="../../static/search.svg" mode="widthFix"></image>
@@ -86,8 +86,7 @@
 			height: 137rpx;
 			position: fixed;
 			top: 0;
-			width: 100%;
-
+			width: 750rpx;
 			.search {
 				width: 80%;
 				border-radius: 1.333333vw;

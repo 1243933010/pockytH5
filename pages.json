@@ -8,161 +8,142 @@
 			}
 		},
 		{
-			"path" : "pages/login/login",
-			"style" : {
-				"navigationBarTitleText" : "",
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/my/my",
-			"style" : 
-			{
+			"path": "pages/my/my",
+			"style": {
 				"navigationBarTitleText": "uni-app",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/my/order",
-			"style" : 
-			{
+			"path": "pages/my/order",
+			"style": {
 				"navigationBarTitleText": "uni-app",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/collect/collect",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/collect/collect",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/my/orderDetail",
-			"style" : 
-			{
+			"path": "pages/my/orderDetail",
+			"style": {
 				"navigationBarTitleText": "uni-app",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/login/register",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/login/register",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/index/detail",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/index/detail",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/index/xieyi",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/index/xieyi",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/my/faq",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/my/faq",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/login/email",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/login/email",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/login/forget",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/login/forget",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/index/class",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/index/class",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/index/pay",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/index/pay",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/my/balance",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/my/balance",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/index/faq",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/index/faq",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/index/product",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/index/product",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/my/recharge",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/my/recharge",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/my/rechargeAddress",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/my/rechargeAddress",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/my/userInfo",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/my/userInfo",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "pages/index/balance",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+			"path": "pages/index/balance",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
 		}
@@ -171,7 +152,11 @@
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#ffffff"
+		"backgroundColor": "#ffffff",
+		"maxWidth": 750,
+		"rpxCalcBaseDeviceWidth": 750,
+		"rpxCalcMaxDeviceWidth": 750,
+		"rpxCalcIncludeWidth": 6000
 	},
 	"uniIdRouter": {},
 	"tabBar": {
@@ -179,24 +164,24 @@
 		"selectedColor": "#3cc51f",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
-		"list": [
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/home.svg",
+				"selectedIconPath": "static/home_select.svg",
+				"text": "%index.home%"
+			},
 			{
-			"pagePath": "pages/index/index",
-			"iconPath": "static/home.svg",
-			"selectedIconPath": "static/home_select.svg",
-			"text": "%index.home%"
-		},
-		{
-			"pagePath": "pages/collect/collect",
-			"iconPath": "static/collect.svg",
-			"selectedIconPath": "static/collect.svg",
-			"text": "%index.collect%"
-		},
-		{
-			"pagePath": "pages/my/my",
-			"iconPath": "static/my.svg",
-			"selectedIconPath": "static/my_select.svg",
-			"text": "%index.order%"
-		}]
+				"pagePath": "pages/collect/collect",
+				"iconPath": "static/collect.svg",
+				"selectedIconPath": "static/collect.svg",
+				"text": "%index.collect%"
+			},
+			{
+				"pagePath": "pages/my/my",
+				"iconPath": "static/my.svg",
+				"selectedIconPath": "static/my_select.svg",
+				"text": "%index.order%"
+			}
+		]
 	}
 }
