@@ -14,14 +14,16 @@
 			</view>
 		</view>
 		<view class="" style="height: 137rpx;"></view>
+		
 		<view class="list">
 			<view class="box">
 				<view class="item" v-for="(item,index) in list" :key="index" @click="goDetail(item)">
 					<image :src="imgUlr+item.goods_img" mode="aspectFill"></image>
 					<view class="box1">
-						<view class="text"><text>{{item.goods_name}}</text> </view>
-						<view class="status0">${{item.max}}</view>
-						<view class="status">{{$t("app.name9")}}1%</view>
+						<text class="text">{{item.goods_name}}</text>
+						<view class="status">Up to <span
+								style="font-size: 28rpx;padding: 0rpx 10rpx;">{{(item.rate * 100).toFixed(0)}}%</span>
+							off</view>
 					</view>
 				</view>
 			</view>
@@ -122,8 +124,10 @@
 
 		.list {
 			width: 100%;
-
+		
 			// background-color: red;
+			padding-bottom: 120rpx;
+		
 			.box {
 				width: 95%;
 				margin: 0 auto;
@@ -131,10 +135,10 @@
 				flex-direction: row;
 				align-items: center;
 				flex-wrap: wrap;
-
+		
 				.item {
 					width: 48%;
-					// height: 270rpx;
+					height: 310rpx;
 					display: flex;
 					flex-direction: column;
 					align-items: center;
@@ -142,34 +146,39 @@
 					box-shadow: 0px 10px 10px rgba(0, 0, 0, .2);
 					margin-right: 2%;
 					margin-bottom: 30rpx;
-					padding-bottom: 20rpx;
+		
 					.box1 {
 						display: flex;
 						flex-direction: column;
+						align-items: center;
+		
 						.text {
+							text-align: center;
 							width: 270rpx;
-							font-size: 35rpx;
-							font-weight: 600;
-							line-height: 1.5;
+							font-size: 32rpx;
+							line-height: 2;
 							display: block;
 							overflow: hidden;
 							white-space: nowrap;
 							text-overflow: ellipsis;
 						}
-						.status0{
+		
+						.status0 {
 							font-size: 26rpx;
 							line-height: 2;
 						}
+		
 						.status {
-							color: #FF6F00;
-							font-size: 26rpx;
+							color: #41af74;
+							font-size: 22rpx;
+							font-weight: bold;
 							margin: 0 0 !important;
 						}
 					}
-
+		
 					image {
 						width: 100%;
-						height: 207rpx;
+						height: 190rpx;
 						border-radius: 15rpx;
 					}
 				}

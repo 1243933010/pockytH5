@@ -7,12 +7,12 @@
 			<view class="order-image pic">
 				<image src="../../static/head_bg.8ba4822.png" mode="widthFix"></image>
 			</view>
-			<view class="order-tit">App Store & iTunes US</view>
-			<view class="order-price">$2.00</view>
+			<view class="order-tit">{{orderDetail.goods_name}}</view>
+			<view class="order-price">${{orderDetail.total_price}}</view>
 			<view class="order-gift-card-number-box">
 				<view class="left">
 					<view class="tit">{{$t("app.name41")}}</view>
-					<view class="number">XH62RXL8Q76MNP63</view>
+					<view class="number">{{orderDetail.finish_at}}</view>
 				</view>
 				<view class="right">{{$t("app.name42")}}</view>
 			</view>
@@ -20,19 +20,19 @@
 			<view class="list">
 				<view class="item">
 					<view class="label">{{$t("app.name44")}}</view>
-					<view class="info">$2.00</view>
+					<view class="info">${{orderDetail.total_price}}</view>
 				</view>
 				<view class="item">
 					<view class="label">{{$t("app.name45")}}</view>
-					<view class="info">success</view>
+					<view class="info">{{orderDetail.order_status1}}</view>
 				</view>
 				<view class="item">
 					<view class="label">{{$t("app.name46")}}</view>
-					<view class="info">2IIN8UYMF5KLG3</view>
+					<view class="info">{{orderDetail.order_no}}</view>
 				</view>
 				<view class="item">
-					<view class="label">{{$t("app.name44")}}</view>
-					<view class="info">2024-07-04 09:22:33</view>
+					<view class="label">{{$t("app.name47")}}</view>
+					<view class="info">{{orderDetail.created_at}}</view>
 				</view>
 			</view>
 			<view class="agin-btn">{{$t("app.name48")}}</view>
@@ -82,6 +82,7 @@ export default {
 	},
 	data() {
 		return {
+			orderDetail:{},
 			faqList: [
 				{
 					tit: "提示“已兑换”或“此代码已兑换”，Apple ID余额却没到账。",
@@ -127,7 +128,13 @@ export default {
 		};
 	},
 	computed: {},
-	onLoad() {},
+	onLoad() {
+		const orderDetail = uni.getStorageSync('orderDetail');
+		if(orderDetail){
+			 this.orderDetail=orderDetail;
+		}
+		
+	},
 	methods: {
 		goPage: (url) => {
 			uni.navigateTo({ url });

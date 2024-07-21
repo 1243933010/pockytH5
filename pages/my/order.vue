@@ -145,6 +145,7 @@ export default {
 				})
 				return
 			}
+			uni.setStorageSync('orderDetail',item)
 			uni.navigateTo({ url:`/pages/my/orderDetail` });
 		},
 		tabHandle(tab) {
