@@ -35,7 +35,7 @@
 						</view> -->
 						<picker cancel-text="取消1" confirm-text="确定1" @change="bindPickerChange" :value="index" :range="array">
 						  <view class="header-select">
-						    <image class="header-select-icon" :src="imgSrc" mode="widthFix"></image>
+						    <image class="header-select-icon" src="../../static/img/yuyan.png" mode="widthFix"></image>
 						    <image class="header-select-select" src="../../static/img/select_icon.png" mode="widthFix"></image>
 						  </view>
 						</picker>
@@ -83,18 +83,25 @@
 			return {
 				iStatusBarHeight: 0,
 				index: 0,
-				array: ["中文", "English", "Francés", "Español", " اللغة العربية"],
+				array: ["中文","漢語", "English", "Francés", "Español", " اللغة العربية","Sprache","言語 (げんご)","Lingua","언어","Taal","Idioma"],
 				iconList: ["../../static/img/cn.png", "../../static/img/eg.png", "../../static/img/fr.png",
 					"../../static/img/es.png", "../../static/img/asa.png"
 				],
-				code: ["zh-Hans", "en", "fr", "es", "ara"],
-				imgSrc: "../../static/img/eg.png",
+				code: ["zh_CN","zh_TW", "en", "fr", "es", "ara","de","ja","it","ko","nl","pt"],
+				// imgSrc: "../../static/img/eg.png",
 				locale: {
-					"zh-Hans": 0,
-					en: 1,
-					fr: 2,
-					es: 3,
-					ara: 4,
+					"zh_CN": 0,
+					"zh_TW":1,
+					en: 2,
+					fr: 3,
+					es: 4,
+					ara: 5,
+					de:6,
+					ja:7,
+					it:8,
+					ko:9,
+					nl:10,
+					pt:11
 				},
 				headerText: '',
 				img: '../../static/img.svg'
@@ -107,7 +114,7 @@
 			console.log(this.iStatusBarHeight, "系统栏高度");
 			let code = uni.getLocale();
 			if (code) {
-				this.imgSrc = this.iconList[this.locale[code]];
+				// this.imgSrc = this.iconList[this.locale[code]];
 			}
 			let userinfo = uni.getStorageSync('userinfo');
 			console.log(userinfo)
@@ -120,12 +127,16 @@
 				this.$emit('rightClick')
 			},
 			bindPickerChange: function(e) {
-				console.log(this.$t, "------");
-				console.log("picker发送选择改变，携带值为", this.code[e.detail.value]);
-				this.imgSrc = this.iconList[e.detail.value];
+				// console.log(this.$t, "------",this.$i18n.locale,e,this.code[e.detail.value]);
+				// console.log("picker发送选择改变，携带值为", this.code[e.detail.value]);
+				
+				// this.imgSrc = this.iconList[e.detail.value];
 				uni.setLocale(this.code[e.detail.value]);
+				
 				this.$i18n.locale = this.code[e.detail.value];
-				setTabbar(this.$t);
+				
+				// setTabbar(this.$t);
+				this.headerText = this.$t("app.name1")
 				this.$emit('listenLocale')
 			},
 			openPop() {

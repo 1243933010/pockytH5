@@ -14,10 +14,10 @@ export  const setTabbar = ($t)=>{
 			}]
 	let index = 4;
 	for(let i = 0;i<4;i++){
-		uni.setTabBarItem({
-		  index: i,
-		  text: tabbar[i].text,
-		})
+		// uni.setTabBarItem({
+		//   index: i,
+		//   text: tabbar[i].text,
+		// })
 	}
 	
 }

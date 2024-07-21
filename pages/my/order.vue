@@ -97,7 +97,16 @@ export default {
 	},
 	methods: {
 		back(){
-			uni.navigateBack({delta:1})
+			const pages = getCurrentPages()
+				if (pages.length === 1) {
+					if (typeof params === 'number') {
+						history.go(-params)
+					} else {
+						history.back()
+					}
+				} else {
+					uni.navigateBack()
+				}
 		},
 		 timestampToDateTime(timestamp) {
 		    // 创建一个新的Date对象
@@ -250,11 +259,12 @@ export default {
 			.tab-item {
 				text-align: center;
 				width: 25%;
-				line-height: 96rpx;
+				// line-height: 96rpx;
 				font-size: 32rpx;
 				color: #646566;
 				position: relative;
-
+				word-break: break-all;
+				padding-bottom: 10rpx;
 				&::after {
 					content: '';
 					position: absolute;

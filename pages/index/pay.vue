@@ -120,9 +120,16 @@
 				}
 			},
 			back() {
-				uni.navigateBack({
-					delta: 1
-				})
+				const pages = getCurrentPages()
+					if (pages.length === 1) {
+						if (typeof params === 'number') {
+							history.go(-params)
+						} else {
+							history.back()
+						}
+					} else {
+						uni.navigateBack()
+					}
 			},
 		}
 	};

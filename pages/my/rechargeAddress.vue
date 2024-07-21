@@ -99,9 +99,16 @@
 		},
 		methods: {
 			back() {
-				uni.navigateBack({
-					delta: 1
-				})
+				const pages = getCurrentPages()
+					if (pages.length === 1) {
+						if (typeof params === 'number') {
+							history.go(-params)
+						} else {
+							history.back()
+						}
+					} else {
+						uni.navigateBack()
+					}
 			},
 			copy(str) {
 				uni.setClipboardData({
@@ -164,6 +171,7 @@
 				qr.data = this.payInfo.pay_address;
 				// 设置二维码大小，必须与canvas设置的宽高一致
 				qr.size = 150;
+				 qr.foregroundImageSrc = '../../static/logo.svg';
 				// 调用制作二维码方法
 				qr.make();
 				// 获取canvas上下文
@@ -172,6 +180,7 @@
 				qr.canvasContext = canvasContext;
 				// 调用绘制方法将二维码图案绘制到canvas上
 				qr.drawCanvas();
+				
 			}
 		}
 	}

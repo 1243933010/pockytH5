@@ -11,7 +11,7 @@
 							<view class="pic">
 								<image src="../../static/order.svg" mode="widthFix"></image>
 							</view>
-							<view class="text">{{$t("app.yue1")}}</view>
+							<view class="text">{{$t("app.yue2")}}</view>
 						</view>
 						<view class="pic icon">
 							<image src="../../static/arrow_right.svg" mode="widthFix"></image>
@@ -29,12 +29,19 @@
 						</view>
 					</view>
 				</view>
-				<view class="terms">
+				<!-- <view class="terms">
 					<text>{{$t("app.yue2")}}</text>
 					<text class="a-link"  @click="goUrl('/pages/index/xieyi?type=1')">《{{$t("app.name20")}}》</text>
 					<text>{{$t("app.name21")}}</text>
 					<text class="a-link" @click="goUrl('/pages/index/xieyi?type=2')">《{{$t("app.name22")}}》</text>
+				</view> -->
+				<view class="terms">
+					<text class="a-link"  @click="goUrl('/pages/index/xieyi?type=1')">《{{$t("app.name20")}}》</text>
+				<text class="a-link" @click="goUrl('/pages/index/xieyi?type=2')">《{{$t("app.name22")}}》</text>
 				</view>
+				<!-- <view class="terms">
+					<text class="a-link" @click="goUrl('/pages/index/xieyi?type=2')">《{{$t("app.name22")}}》</text>
+				</view> -->
 			</view>
 			<view class="contact-us terms">
 				<view class="text">{{$t("app.yue3")}}</view>
@@ -54,7 +61,9 @@ export default {
 		return {};
 	},
 	computed: {},
-	onLoad() {},
+	onLoad() {
+		console.log(this.$t("ja"))
+	},
 	methods: {
 		goUrl(url){
 			uni.navigateTo({
@@ -117,12 +126,13 @@ export default {
 			}
 
 			.terms {
-				margin-top: 44rpx;
+				margin-top: 14rpx;
 				.df(center, center);
 				font-size: 28rpx;
 
 				.a-link {
 					color: #41af74;
+					word-break: break-all;
 				}
 			}
 		}
